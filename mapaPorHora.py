@@ -11,18 +11,25 @@ import matplotlib.pyplot as plt
 #lower_limit = pd.Timestamp(2014,2,4,6) #limite inferior = 2014-02-04 06:00:00
 #upper_limit = pd.Timestamp(2014,2,4,7) #limite superior = 2014-02-04 07:00:00
 
-lower_limit = dt.datetime(2014,2,4,6,0,0)
-upper_limit = dt.datetime(2014,2,4,6,59,59)
+lower_limit = dt.datetime(2014,2,4,5,0,0)
+upper_limit = dt.datetime(2014,2,4,5,59,59)
 
-df = pd.read_csv('./Dados/roma_calibrated.csv')
+df = pd.read_csv('~/Dropbox/my.folder/Pesquisa/Coding/Dados/roma_calibrated.csv')
 #print(df.loc[df['id'] == 101].long_x.min(), df.loc[df['id'] == 101].long_x.max(), df.loc[df['id'] == 101].lat_y.min(), df.loc[df['id'] == 101].lat_y.max())
 df['time'] = pd.to_datetime(df['time'])
 
-df2 = df.loc[(df['time'] < upper_limit) & (df['time'] > lower_limit)]
-#print(df2.long_x.min(), df2.long_x.max(), df2.lat_y.min(), df2.lat_y.max())
+df2 = df.loc[(df['time'] < upper_limit) & (df['time'] > lower_limit)] #Separa as linhas com horario entre 5h e 5h59min
+#print(df2.long_x.min(), df2.long_x.max(), df2.lat_y.min(), df2.lat_y.max()) #printa os maximos e os minimos de cada eixo do DataFrame
 
+df2 = df2.sort_values('time')   #ordena o DataFrame por "time"
+df2.to_csv('roma_5hTo6h_sorted.csv', index = False) #salva o DataFrame para CSV
+
+ ###
+ # Printa as posicoes das coordenadas em um mapa
+ ###
+'''
 BBox = (df2.long_x.min(),df2.long_x.max(),df2.lat_y.min(),df2.lat_y.max())
-ruh_m = plt.imread('./Dados/map.png')
+ruh_m = plt.imread('map.png') #mapa a ser usado de fundo
 
 fig, ax = plt.subplots(figsize= (8,7))
 ax.scatter(df.long_x, df.lat_y, zorder=1, alpha=0.2, c='b', s=10)
@@ -32,9 +39,9 @@ ax.set_ylim(BBox[2],BBox[3])
 ax.imshow(ruh_m, zorder= 0, extent= BBox, aspect= 'equal')
 
 plt.savefig('6-7.png')
-
+'''
 ###
-# Le os horarios de casa coordenada e salva aqueles entre 6h-7h
+# Le os horarios de cada coordenada e salva aqueles entre 6h-7h
 ###
 '''
 with open('./Dados/roma_calibrated.csv') as file:
