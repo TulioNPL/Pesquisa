@@ -2,20 +2,18 @@
 # Converte os dados para dictionary
 #####
 
-import datetime as dt
-import pandas as pd
-import numpy as np 
-import matplotlib.pyplot as plt
+import csv
+from ponto import Ponto
 
-with open('./Dados/roma_calibrated.csv') as file:
+with open('roma_5hTo6h_sorted_by_id.csv') as file:
     reader = csv.DictReader(file)
 
-    line = reader.__next__()
+    line = reader.__next__() #le a primeira linha
     tag = line['id']
     print('\n\n\n\n' + str(tag) + ": ", end='')
     
     for line in reader:
-        if tag != line['id']:
+        if tag != line['id']: #Quando a tag for modificada, printa nova tag
             tag = line['id']
             print('\n\n\n\n' + str(tag) + ": ", end='')
 
@@ -26,5 +24,5 @@ with open('./Dados/roma_calibrated.csv') as file:
         pnt['Hora'] = hour
         pnt['Coord'] = coord
 
-        newInstance = ponto.Ponto(pnt)
+        newInstance = Ponto(pnt)
         print(newInstance, end=',')
