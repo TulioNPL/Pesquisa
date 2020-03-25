@@ -1,5 +1,6 @@
 import numpy as np 
 import pandas as pd 
+import seaborn as sns
 import matplotlib.pyplot as plt 
 
 class calc:
@@ -66,15 +67,14 @@ class calc:
             nCarros = np.append(nCarros,x)
         listHora.append(24)
 
-        nCarros = (nCarros * 100)/totalCarros 
+        porcCarros = (nCarros * 100)/totalCarros 
 
         fig, ax = plt.subplots()
-
-        '''
-        index = np.arange(len(nCarros))
+    
+        index = np.arange(len(porcCarros))
         bar_width = 1
         score_label = np.arange(0,10,1)
-        bar = ax.hist(index,nCarros,bar_width,label='Porcentagem de Carros',align='edge',color='#ffffff',edgecolor='#000000')
+        bar = ax.bar(index,porcCarros,bar_width,label='Porcentagem de Carros',align='edge')
 
         #setting labels
         ax.set_ylabel('Porcentagem de carros')
@@ -85,16 +85,37 @@ class calc:
         ax.set_xticklabels(listHora,{'fontsize':7})
         ax.set_yticks(score_label)
         ax.set_yticklabels(score_label)
-        '''
-        
-        plt.hist(nCarros)
+
+        plt.savefig("./graficos/%_carros_x_hora.png")
         plt.show()
 
 
+    def funcDensidade():
+        carros = []
+        listHora = []
 
+        for i in range(0,24):
+            horario = str(i) + 'hTo' + str(i+1) + 'h'
+            x = calc.qtdCarros(horario)
+            newlist = [i] * x
+            carros.extend(newlist)
+            listHora.append(i)
+
+        index = np.arange(len(listHora))
+
+        fig, ax = plt.subplots()
+
+        ax.set_xticks(index)
+        ax.set_xticklabels(listHora,{'fontsize':7})
+
+        #print(carros)
+        sns.distplot(carros, kde_kws={"color":"r"})
+        plt.savefig('./graficos/dens_carros.png')
+        plt.show()
 
 
 
 #Driver
 #calc.grafCarros()
-calc.histCarros()
+#calc.histCarros()
+calc.funcDensidade()
