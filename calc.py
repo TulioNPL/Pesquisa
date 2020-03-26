@@ -86,7 +86,7 @@ class calc:
         ax.set_yticks(score_label)
         ax.set_yticklabels(score_label)
 
-        plt.savefig("./graficos/%_carros_x_hora.png")
+        plt.savefig("./graficos/perc_carros_x_hora.png")
         plt.show()
 
     def funcDensidade():
