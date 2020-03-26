@@ -89,7 +89,6 @@ class calc:
         plt.savefig("./graficos/%_carros_x_hora.png")
         plt.show()
 
-
     def funcDensidade():
         carros = []
         listHora = []
@@ -112,10 +111,3 @@ class calc:
         sns.distplot(carros, kde_kws={"color":"r"})
         plt.savefig('./graficos/dens_carros.png')
         plt.show()
-
-
-
-#Driver
-#calc.grafCarros()
-#calc.histCarros()
-calc.funcDensidade()
