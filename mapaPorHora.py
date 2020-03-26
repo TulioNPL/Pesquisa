@@ -56,7 +56,7 @@ def osmPlot():
 
     ruh_m = plt.imread('./graficos/map.png') #mapa a ser usado de fundo
 
-    fig, ax = plt.subplots(figsize= (8,12))
+    fig, ax = plt.subplots(figsize= (8,8))
     ax.scatter(df.long_x, df.lat_y, zorder=1, alpha=0.008, c='#d1432a', s=10)
     ax.set_title('Scatter plot')
     ax.set_xlim(BBox[0],BBox[1])
