@@ -11,81 +11,57 @@ import matplotlib.cm as cm
 from scipy.ndimage.filters import gaussian_filter
 import gmplot
 
+def gMapsPlot():
+    """Plota o mapa de calor utilizando o Google Maps"""
 
-df = pd.read_csv('./sortById/roma_12hTo13h_sorted_by_id.csv')
-lat = df['lat_y']
-lng = df['long_x']
+    df = pd.read_csv('./sortById/roma_12hTo13h_sorted_by_id.csv')
+    lat = df['lat_y']
+    lng = df['long_x']
 
-mid_lat = (df.lat_y.min() + df.lat_y.max()) / 2
-mid_lng = (df.long_x.min() + df.long_x.max()) / 2
+    mid_lat = (df.lat_y.min() + df.lat_y.max()) / 2 #latitude media
+    mid_lng = (df.long_x.min() + df.long_x.max()) / 2 #longitude media
 
-#print(mid_lat,mid_lng)
+    gmap = gmplot.GoogleMapPlotter(mid_lat,mid_lng,12) #(x,y,zoom)
+    gmap.heatmap(lat,lng)
+    gmap.draw('./graficos/heatmap_12hTo13h.html')
 
-gmap = gmplot.GoogleMapPlotter(mid_lat,mid_lng,12)
-gmap.heatmap(lat,lng)
-gmap.draw('./graficos/heatmap_12hTo13h.html')
-
-'''
 def my_plot(x,y,s,bins=1000):
+    """Plota um mapa de calor"""
+
     heatmap, xedges, yedges = np.histogram2d(x, y, bins=bins)
     heatmap = gaussian_filter(heatmap, sigma=s)
 
     extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
     return heatmap.T, extent
 
-lower_limit = dt.datetime(2014,2,4,6,0,0)
-upper_limit = dt.datetime(2014,2,4,7,59,59)
+def heatHistogramPlot():
+    """Plota o histograma 2d das posicoes dos veiculos"""
 
-df = pd.read_csv('~/Dropbox/my.folder/Pesquisa/Coding/Dados/roma_calibrated.csv')
-#print(df.loc[df['id'] == 101].long_x.min(), df.loc[df['id'] == 101].long_x.max(), df.loc[df['id'] == 101].lat_y.min(), df.loc[df['id'] == 101].lat_y.max())
-df['time'] = pd.to_datetime(df['time'])
+    df = pd.read_csv('./sortById/roma_12hTo13h_sorted_by_id.csv')
 
-df2 = df.loc[(df['time'] < upper_limit) & (df['time'] > lower_limit)] #Separa as linhas com horario entre 5h e 5h59min
-#print(df2.long_x.min(), df2.long_x.max(), df2.lat_y.min(), df2.lat_y.max()) #printa os maximos e os minimos de cada eixo do DataFrame
+    fig, ax = plt.subplots()
 
-fig, ax = plt.subplots()
+    img,extent = my_plot(df.long_x,df.lat_y,128)
+    ax.imshow(img,extent=extent,origin='lower',cmap=cm.jet)
+    ax.set_title('Heatmap')
+    plt.savefig('./graficos/heat_histogram_12hTo13h.png')
+    plt.show()
 
-img,extent = my_plot(df.long_x,df.lat_y,128)
-ax.imshow(img,extent=extent,origin='lower',cmap=cm.jet)
-ax.set_title('Heatmap')
-plt.show()
-'''
-'''
-BBox = (df2.long_x.min(),df2.long_x.max(),df2.lat_y.min(),df2.lat_y.max())
-#ruh_m = plt.imread('map.png') #mapa a ser usado de fundo
+def osmPlot():
+    """Plota o mapa utilizando Open Street Maps"""
 
-fig, ax = plt.subplots(figsize= (8,7))
-ax.scatter(df.long_x, df.lat_y, zorder=1, alpha=0.2, c='b', s=10)
-ax.set_title('Scatter plot')
-ax.set_xlim(BBox[0],BBox[1])
-ax.set_ylim(BBox[2],BBox[3])
-#ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
+    df = pd.read_csv('./sortById/roma_12hTo13h_sorted_by_id.csv')
 
-plt.savefig('./graficos/6-7.png')
-plt.show()
-'''
+    BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
 
+    ruh_m = plt.imread('./graficos/map.png') #mapa a ser usado de fundo
 
-###
-# Le os horarios de cada coordenada e salva aqueles entre 6h-7h
-###
-'''
+    fig, ax = plt.subplots(figsize= (8,12))
+    ax.scatter(df.long_x, df.lat_y, zorder=1, alpha=0.008, c='#d1432a', s=10)
+    ax.set_title('Scatter plot')
+    ax.set_xlim(BBox[0],BBox[1])
+    ax.set_ylim(BBox[2],BBox[3])
+    ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
 
-#lower_limit = pd.Timestamp(2014,2,4,6) #limite inferior = 2014-02-04 06:00:00
-#upper_limit = pd.Timestamp(2014,2,4,7) #limite superior = 2014-02-04 07:00:00
-
-with open('./Dados/roma_calibrated.csv') as file:
-    reader = csv.DictReader(file)
-
-    limite_sup = dt.time(7,0,0)
-    limite_inf = dt.time(5,59,59)
-
-    for line in reader:
-        hora = line['time']
-        
-        obj_hora = dt.datetime.strptime(hora, '%Y-%m-%d %H:%M:%S')
-
-        if(obj_hora.time() < limite_sup and obj_hora.time() > limite_inf):
-            #print(obj_hora.date())
-            print(obj_hora.time())
-'''
+    plt.savefig('./graficos/map_12hTo13h.png')
+    plt.show()
