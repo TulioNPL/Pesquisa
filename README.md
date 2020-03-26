@@ -20,4 +20,4 @@ Mapa de calor das 12h às 13h na cidade de Roma
 ![Alt text](/graficos/map_12hTo13h.png?raw=true "Mapa de calor - Roma - 12h-13h")
 
 Gráfico da Porcentagem de carros x Hora do dia
-![Alt text](/graficos/%_carros_x_hora.png?raw=true "Porcentagem de carros x Hora do dia")
+![Alt text](/graficos/porc_carros_x_hora.png?raw=true "Porcentagem de carros x Hora do dia")
