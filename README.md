@@ -8,7 +8,7 @@ Orientando: Tulio Polido
 # Objetivo
 Desenvolver uma análise estatística de uma base de dados de táxis de Roma utilizando ferramentas de Data Science como CPython, R Lang e OpenStreetMaps.
 
-# Análise estatística
+# Análise do trace de Roma
 
 Gráfico de Densidade de veículos x Hora do dia
 ![Alt text](/graficos/dens_carros.png?raw=true "Densidade veicular x Hora do dia")
