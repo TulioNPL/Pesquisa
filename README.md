@@ -22,5 +22,9 @@ Mapa de calor das 12h às 13h na cidade de Roma
 Gráfico da Porcentagem de carros x Hora do dia
 ![Alt text](/graficos/porc_carros_x_hora.png?raw=true "Porcentagem de carros x Hora do dia")
 
-# Licença 
+# Referências Bibliográficas
+
+
+
+
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
