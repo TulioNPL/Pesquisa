@@ -19,15 +19,7 @@ for i in range(0,24):
     df2 = df.loc[(df['time'] < upper_limit) & (df['time'] > lower_limit)] #Separa as linhas com horario entre 5h e 5h59min
     #print(df2.long_x.min(), df2.long_x.max(), df2.lat_y.min(), df2.lat_y.max()) #printa os maximos e os minimos de cada eixo do DataFrame
 
-    df2 = df2.sort_values('time')   #ordena o DataFrame por "data-hora"
-    #df2 = df2.sort_values('id')   #ordena o DataFrame por "id"
-    nome = './sortByTime/roma_' + str(i) + 'hTo' + str(i+1) + 'h_sorted_by_time.csv'
-    df2.to_csv(nome, index = False) #salva o DataFrame para CSV
 
- ###
- # Printa as posicoes das coordenadas em um mapa
- ###
-'''
 BBox = (df2.long_x.min(),df2.long_x.max(),df2.lat_y.min(),df2.lat_y.max())
 ruh_m = plt.imread('map.png') #mapa a ser usado de fundo
 
@@ -39,7 +31,8 @@ ax.set_ylim(BBox[2],BBox[3])
 ax.imshow(ruh_m, zorder= 0, extent= BBox, aspect= 'equal')
 
 plt.savefig('6-7.png')
-'''
+
+
 ###
 # Le os horarios de cada coordenada e salva aqueles entre 6h-7h
 ###
