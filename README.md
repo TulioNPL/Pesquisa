@@ -24,7 +24,27 @@ Gráfico da Porcentagem de carros x Hora do dia
 
 # Referências Bibliográficas
 
+<a id="1">[1]</a> 
+KONG, Xiangjie et al. 
+Mobility dataset generation for vehicular social networks based on floating car data. 
+**IEEE Transactions on Vehicular Technology**, v. 67, n. 5, p. 3874-3886, 2018.
 
+<a id="2">[2]</a> 
+BASTA, Nardine et al. 
+Generic Geo-Social Mobility Model for VANET. 
+In: **2016 IEEE 84th Vehicular Technology Conference (VTC-Fall)**. IEEE, 2016. p. 1-5.
 
+<a id="3">[3]</a> 
+NING, Zhaolong et al. 
+Vehicular social networks: Enabling smart mobility. 
+**IEEE Communications Magazine**, v. 55, n. 5, p. 16-55, 2017.
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+<a id="4">[4]</a> 
+GAINARU, Ana; DOBRE, Ciprian; CRISTEA, Valentin. 
+A realistic mobility model based on social networks for the simulation of VANETs. 
+In: **VTC Spring 2009-IEEE 69th Vehicular Technology Conference**. IEEE, 2009. p. 1-5.
+
+<a id="5">[5]</a> 
+MARWAN, Norbert et al. 
+Complex network approach for recurrence analysis of time series. 
+**Physics Letters A**, v. 373, n. 46, p. 4246-4254, 2009.
