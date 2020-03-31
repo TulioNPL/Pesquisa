@@ -45,6 +45,6 @@ A realistic mobility model based on social networks for the simulation of VANETs
 In: **VTC Spring 2009-IEEE 69th Vehicular Technology Conference**. IEEE, 2009. p. 1-5.
 
 <a id="5">[5]</a> 
-MARWAN, Norbert et al. 
-Complex network approach for recurrence analysis of time series. 
-**Physics Letters A**, v. 373, n. 46, p. 4246-4254, 2009.
+CELES, Clayson; BOUKERCHE, Azzedine; LOUREIRO, Antonio AF. 
+Towards Understanding of Bus Mobility for Intelligent Vehicular Networks Using Real-World Data. 
+In: **2019 IEEE Global Communications Conference (GLOBECOM)**. IEEE, 2019. p. 1-6.
