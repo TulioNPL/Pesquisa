@@ -22,6 +22,16 @@ Mapa de calor das 12h às 13h na cidade de Roma
 Gráfico da Porcentagem de carros x Hora do dia
 ![Alt text](/graficos/porc_carros_x_hora.png?raw=true "Porcentagem de carros x Hora do dia")
 
+# Manual
+
+### Plotando mapa de calor na cidade
+
+```
+$ python3 -c "from mapaPorHora import *; osmPlot()" 12hTo13h
+```
+
+O horário pode ser trocado desde esteja no mesmo formato. Ex: 3hTo4h; 17hTo18h (Intervalos de 1h)
+
 # Referências Bibliográficas
 
 <a id="1">[1]</a> 
