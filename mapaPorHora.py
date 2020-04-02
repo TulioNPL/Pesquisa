@@ -61,7 +61,7 @@ def osmPlot():
 
     fig, ax = plt.subplots()
     ax.scatter(df.long_x, df.lat_y, zorder=1, alpha=0.008, c='#d1432a', s=10)
-    ax.set_title('Scatter plot')
+    ax.set_title('Mapa de Calor')
     ax.set_xlim(BBox[0],BBox[1])
     ax.set_ylim(BBox[2],BBox[3])
     ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
