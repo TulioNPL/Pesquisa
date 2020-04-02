@@ -49,24 +49,26 @@ def heatHistogramPlot():
     plt.show()
 
 def osmPlot():
-    horario = str(sys.argv[1])
     """Plota o mapa utilizando Open Street Maps"""
-    path = './sortById/roma_' + str(horario) + '_sorted_by_id.csv'
+
+    horario = str(sys.argv[1])
+    
+    path = './sortById/roma_' + horario + '_sorted_by_id.csv'
     print('Acessando dados de: ' + path)
-    df = pd.read_csv('./sortById/roma_12hTo13h_sorted_by_id.csv')
+    df = pd.read_csv(path)
 
-    BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
-
-    ruh_m = plt.imread('./graficos/map.png') #mapa a ser usado de fundo
+    BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max()) #limites laterais do mapa
+    print(df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
+    ruh_m = plt.imread('./graficos/backmap_' + horario + '.png') #mapa a ser usado de fundo
 
     fig, ax = plt.subplots()
     ax.scatter(df.long_x, df.lat_y, zorder=1, alpha=0.008, c='#d1432a', s=10)
-    ax.set_title('Mapa de Calor')
+    ax.set_title('Mapa de Calor - ' + horario)
     ax.set_xlim(BBox[0],BBox[1])
     ax.set_ylim(BBox[2],BBox[3])
     ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
 
     path = './graficos/map_' + horario + '.png'
     print('Gráfico salvo como: ' + path)
-    plt.savefig('./graficos/map_12hTo13h.png')
+    plt.savefig(path)
     plt.show()
