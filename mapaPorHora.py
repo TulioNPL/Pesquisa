@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from scipy.ndimage.filters import gaussian_filter
 import gmplot
+import sys
 
 def gMapsPlot():
     """Plota o mapa de calor utilizando o Google Maps"""
@@ -48,8 +49,10 @@ def heatHistogramPlot():
     plt.show()
 
 def osmPlot():
+    horario = str(sys.argv[1])
     """Plota o mapa utilizando Open Street Maps"""
-
+    path = './sortById/roma_' + str(horario) + '_sorted_by_id.csv'
+    print('Acessando dados de: ' + path)
     df = pd.read_csv('./sortById/roma_12hTo13h_sorted_by_id.csv')
 
     BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
@@ -63,5 +66,7 @@ def osmPlot():
     ax.set_ylim(BBox[2],BBox[3])
     ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
 
+    path = './graficos/map_' + horario + '.png'
+    print('Gráfico salvo como: ' + path)
     plt.savefig('./graficos/map_12hTo13h.png')
     plt.show()
