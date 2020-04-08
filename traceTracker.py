@@ -8,6 +8,7 @@ def track():
 
     longitudes = df['long_x'].to_numpy()
     latitudes = df['lat_y'].to_numpy()
+    horario = [] #limpar a data do horario
 
     BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
     #print(BBox)
@@ -21,6 +22,7 @@ def track():
     ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
 
     for i in range(0,10):
+        #Substituir o TESTANDO pelo horario
         ax.text(longitudes[i],latitudes[i],'TESTANDO',fontsize=8)
 
     plt.show()
