@@ -3,13 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 ID = 3
+HORA = '18hTo19h' 
 
 def track():
     df = pd.read_csv("./sortByTime/roma_18hTo19h_sorted_by_time.csv")
     df = df.loc[df['id'] == ID]
     #print(df)
 
-    df.to_csv("./sortByTime/roma_12hTo13h_id_" + str(ID) + "_sorted_by_time.csv")
+    df.to_csv("./sortByTime/roma_" + HORA + "_id_" + str(ID) + "_sorted_by_time.csv")
     longitudes = df['long_x'].to_numpy()
     latitudes = df['lat_y'].to_numpy()
     new = df['time'].str.split(" ", n=1, expand = True)
