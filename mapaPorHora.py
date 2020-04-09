@@ -59,7 +59,7 @@ def osmPlot():
 
     BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max()) #limites laterais do mapa
     print(df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
-    ruh_m = plt.imread('./graficos/backmap_' + horario + '.png') #mapa a ser usado de fundo
+    ruh_m = plt.imread('./graficos/backmaps/backmap_' + horario + '.png') #mapa a ser usado de fundo
 
     fig, ax = plt.subplots()
     ax.scatter(df.long_x, df.lat_y, zorder=1, alpha=0.008, c='#d1432a', s=10)
