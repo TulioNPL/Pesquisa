@@ -2,10 +2,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-ID = 101
+ID = 3
 
 def track():
-    df = pd.read_csv("./sortByTime/roma_12hTo13h_sorted_by_time.csv")
+    df = pd.read_csv("./sortByTime/roma_18hTo19h_sorted_by_time.csv")
     df = df.loc[df['id'] == ID]
     #print(df)
 
@@ -18,8 +18,7 @@ def track():
     horario = horario.to_numpy()
 
     BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
-    #print(BBox)
-
+    print(BBox)
 
     ruh_m = plt.imread('./graficos/backmaps/trackmap_id_'+ str(ID) +'.png')
 
@@ -35,7 +34,6 @@ def track():
             ax.text(longitudes[i],latitudes[i],horario[i],fontsize=10)
 
     plt.show()
-
 
 #Driver
 track()
