@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def track():
     df = pd.read_csv("./sortByTime/roma_12hTo13h_sorted_by_time.csv")
     df = df.loc[df['id'] == 7]
-
+    #df.to_csv("./sortByTime/roma_12hTo13h_id_7_sorted_by_time.csv")
     longitudes = df['long_x'].to_numpy()
     latitudes = df['lat_y'].to_numpy()
     new = df['time'].str.split(" ", n=1, expand = True)
