@@ -2,10 +2,14 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+ID = 101
+
 def track():
     df = pd.read_csv("./sortByTime/roma_12hTo13h_sorted_by_time.csv")
-    df = df.loc[df['id'] == 7]
-    #df.to_csv("./sortByTime/roma_12hTo13h_id_7_sorted_by_time.csv")
+    df = df.loc[df['id'] == ID]
+    #print(df)
+
+    df.to_csv("./sortByTime/roma_12hTo13h_id_" + str(ID) + "_sorted_by_time.csv")
     longitudes = df['long_x'].to_numpy()
     latitudes = df['lat_y'].to_numpy()
     new = df['time'].str.split(" ", n=1, expand = True)
@@ -15,17 +19,20 @@ def track():
 
     BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
     #print(BBox)
-    ruh_m = plt.imread('./graficos/trackmap_id_7.png')
+
+
+    ruh_m = plt.imread('./graficos/backmaps/trackmap_id_'+ str(ID) +'.png')
 
     fig, ax = plt.subplots()
     ax.scatter(df.long_x, df.lat_y, zorder=1, alpha=1, c='#d1432a', s=10)
-    ax.set_title('Trackmap ID 7')
+    ax.set_title('Trackmap ID ' + str(ID))
     ax.set_xlim(BBox[0],BBox[1])
     ax.set_ylim(BBox[2],BBox[3])
     ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
 
     for i in range(0,horario.size):
-        ax.text(longitudes[i],latitudes[i],horario[i],fontsize=8)
+        if i % 25 == 0:
+            ax.text(longitudes[i],latitudes[i],horario[i],fontsize=10)
 
     plt.show()
 
