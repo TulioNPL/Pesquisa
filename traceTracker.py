@@ -22,10 +22,8 @@ def track():
 #    print(BBox)
 
     ruh_m = plt.imread('./graficos/backmaps/trackmap_id_'+ str(ID) +'.png')
-    #fig, ax = plt.subplots()
 
     for i in range(0,horario.size):
-    #for i in range(0,1000):
         fig, ax = plt.subplots()
         ax.scatter(longitudes[i], latitudes[i], zorder=1, alpha=1, c='#d1432a', s=10)
         ax.set_title('Trackmap ID ' + str(ID) + " " +str(i))
@@ -35,8 +33,6 @@ def track():
         ax.text(longitudes[i],latitudes[i],horario[i],fontsize=10)
         plt.savefig("./graficos/trackmap_id_3/trackmap_id_"+str(ID)+"_"+str(HORA)+"_"+str(i)+".png", dpi=400)
         plt.close()
-
-    #plt.show()
 
 #Driver
 track()
