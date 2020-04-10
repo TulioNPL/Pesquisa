@@ -19,22 +19,24 @@ def track():
     horario = horario.to_numpy()
 
     BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
-    print(BBox)
+#    print(BBox)
 
     ruh_m = plt.imread('./graficos/backmaps/trackmap_id_'+ str(ID) +'.png')
-
-    fig, ax = plt.subplots()
-    ax.scatter(df.long_x, df.lat_y, zorder=1, alpha=1, c='#d1432a', s=10)
-    ax.set_title('Trackmap ID ' + str(ID))
-    ax.set_xlim(BBox[0],BBox[1])
-    ax.set_ylim(BBox[2],BBox[3])
-    ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
+    #fig, ax = plt.subplots()
 
     for i in range(0,horario.size):
-        if i % 25 == 0:
-            ax.text(longitudes[i],latitudes[i],horario[i],fontsize=10)
+    #for i in range(0,1000):
+        fig, ax = plt.subplots()
+        ax.scatter(longitudes[i], latitudes[i], zorder=1, alpha=1, c='#d1432a', s=10)
+        ax.set_title('Trackmap ID ' + str(ID) + " " +str(i))
+        ax.set_xlim(BBox[0],BBox[1])
+        ax.set_ylim(BBox[2],BBox[3])
+        ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
+        ax.text(longitudes[i],latitudes[i],horario[i],fontsize=10)
+        plt.savefig("./graficos/trackmap_id_3/trackmap_id_"+str(ID)+"_"+str(HORA)+"_"+str(i)+".png", dpi=400)
+        plt.close()
 
-    plt.show()
+    #plt.show()
 
 #Driver
 track()
