@@ -70,5 +70,5 @@ def osmPlot():
 
     path = './graficos/map_' + horario + '.png'
     print('Gráfico salvo como: ' + path)
-    plt.savefig(path)
+    plt.savefig(path, dpi=500)
     plt.show()
