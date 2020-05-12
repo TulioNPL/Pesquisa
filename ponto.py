@@ -4,4 +4,4 @@ class Ponto:
         self.pointData = pointData
 
     def __str__(self):
-        return self.pointData['Hora'] + ", " + str(self.pointData['Coord'])
+        return self.pointData['Hora'] + " " + str(self.pointData['Coord'])
