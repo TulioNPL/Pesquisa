@@ -1,3 +1,13 @@
+# Update 10/05 - 16/05
+
+-> Desenvolvimento do Dictionary
+```python
+     Dict = {'ID':[(hora,coord),(hora,coord),...)],'ID2':[(hora,coord),(hora,coord),...]...}
+```
+-> Update dos arquivos ordenados por ID. ('Hora' adicionada como segunda chave de ordenação)
+
+
+____________________________________________________________
 # Pesquisa
 Trabalho de pesquisa da área de Redes Veiculares
 
