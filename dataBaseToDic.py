@@ -7,7 +7,7 @@ from ponto import Ponto
 
 newDict = {}
 
-with open('roma_5hTo6h_sorted_by_id.csv') as file:
+with open('./sortById/roma_5hTo6h_sorted_by_id.csv') as file:
     reader = csv.DictReader(file)
 
     line = reader.__next__() #le a primeira linha
@@ -33,4 +33,9 @@ with open('roma_5hTo6h_sorted_by_id.csv') as file:
 
         newDict[tag].append(newInstance)
 
-    print(newDict['101'][0])
+    for key,value in newDict.items():
+        print(key, end='\n')
+        for i in range(len(value)):
+            print(value[i])
+
+    #print(newDict['101'][0])
