@@ -30,12 +30,10 @@ with open('./sortById/roma_5hTo6h_sorted_by_id.csv') as file:
         pnt['Hora'] = hour
         pnt['Coord'] = coord
         newInstance = Ponto(pnt)
-
+        
         newDict[tag].append(newInstance)
 
     for key,value in newDict.items():
         print(key, end='\n')
         for i in range(len(value)):
-            print(value[i])
-
-    #print(newDict['101'][0])
+            print(value[i].pointData['Hora'])
