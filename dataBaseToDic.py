@@ -1,7 +1,7 @@
 #####
 # Converte os dados para dictionary
 #####
-
+from datetime import datetime
 import csv
 from ponto import Ponto
 
@@ -36,4 +36,5 @@ with open('./sortById/roma_5hTo6h_sorted_by_id.csv') as file:
     for key,value in newDict.items():
         print(key, end='\n')
         for i in range(len(value)):
-            print(value[i].pointData['Hora'])
+            pointData = value[i].pointData['Hora']
+            pointData = datetime.strptime(pointData,'%Y-%d-%m %H:%M:%S') #converte string para datahora
