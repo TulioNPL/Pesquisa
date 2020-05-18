@@ -2,12 +2,16 @@
 # Converte os dados para dictionary
 #####
 from datetime import datetime
-import csv
+from datetime import timedelta
 from ponto import Ponto
+import csv
+import matplotlib.pyplot as plt
 
 newDict = {}
+maxDelta = timedelta(hours=0,minutes=0,seconds=30)
+intervalos = []
 
-with open('./sortById/roma_5hTo6h_sorted_by_id.csv') as file:
+with open('./sortById/roma_12hTo13h_sorted_by_id.csv') as file:
     reader = csv.DictReader(file)
 
     line = reader.__next__() #le a primeira linha
@@ -34,11 +38,28 @@ with open('./sortById/roma_5hTo6h_sorted_by_id.csv') as file:
         newDict[tag].append(newInstance)
 
     for key,value in newDict.items():
-        print(key, end='\n')
+        #print(key, end='\n')
+
+        
         for i in range(len(value)-1):
             pointData = value[i].pointData['Hora']
             pointData2 = value[i+1].pointData['Hora']
+
             pointData = datetime.strptime(pointData,'%Y-%d-%m %H:%M:%S') #converte string para datahora
             pointData2 = datetime.strptime(pointData2,'%Y-%d-%m %H:%M:%S')
 
-            print(pointData2 - pointData)
+            intervalo = pointData2-pointData
+            intervalos.append(intervalo.total_seconds())
+            #print(intervalos)
+
+            '''
+            if(intervalo > maxDelta):
+                print(intervalo.total_seconds())
+            '''
+
+    #print(max(intervalos))
+
+    plt.hist(intervalos,density=True,bins=1601)
+    plt.xlabel('segundos')
+    plt.ylabel('frequencia')
+    plt.show()
