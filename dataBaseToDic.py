@@ -35,6 +35,10 @@ with open('./sortById/roma_5hTo6h_sorted_by_id.csv') as file:
 
     for key,value in newDict.items():
         print(key, end='\n')
-        for i in range(len(value)):
+        for i in range(len(value)-1):
             pointData = value[i].pointData['Hora']
+            pointData2 = value[i+1].pointData['Hora']
             pointData = datetime.strptime(pointData,'%Y-%d-%m %H:%M:%S') #converte string para datahora
+            pointData2 = datetime.strptime(pointData2,'%Y-%d-%m %H:%M:%S')
+
+            print(pointData2 - pointData)
