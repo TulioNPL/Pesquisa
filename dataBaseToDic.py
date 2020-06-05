@@ -5,11 +5,23 @@ from datetime import datetime
 from datetime import timedelta
 from ponto import Ponto
 import csv
+import math
 import matplotlib.pyplot as plt
 
 newDict = {}
 maxDelta = timedelta(hours=0,minutes=0,seconds=30)
-intervalos = []
+timeGaps = [] #lista com os intervalos de tempos entre os pontos
+coordGaps = [] #lista com os intervalos de distancias entre os pontos
+
+def convertHaversine(x1,y1,x2,y2):
+    R = 6378.137
+    dLat = x2 * math.pi / 180 - x1 * math.pi / 180
+    dLon = y2 * math.pi / 180 - y1 * math.pi / 180
+    a = math.sin(dLat/2) * math.sin(dLat/2) + math.cos(x1 * math.pi / 180) * math.cos(x2 * math.pi / 180) * math.sin(dLon/2) * math.sin(dLon/2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    d = R * c
+
+    return d* 1000 #retorna o valor em metros e não Km
 
 with open('./sortById/roma_12hTo13h_sorted_by_id.csv') as file:
     reader = csv.DictReader(file)
@@ -40,26 +52,22 @@ with open('./sortById/roma_12hTo13h_sorted_by_id.csv') as file:
     for key,value in newDict.items():
         #print(key, end='\n')
 
-        
         for i in range(len(value)-1):
-            pointData = value[i].pointData['Hora']
-            pointData2 = value[i+1].pointData['Hora']
+            point1 = value[i]
+            point2 = value[i+1]
 
-            pointData = datetime.strptime(pointData,'%Y-%d-%m %H:%M:%S') #converte string para datahora
-            pointData2 = datetime.strptime(pointData2,'%Y-%d-%m %H:%M:%S')
+            pointCoord1 = point1.pointData['Coord']
+            pointCoord2 = point2.pointData['Coord']
 
-            intervalo = pointData2-pointData
-            intervalos.append(intervalo.total_seconds())
-            #print(intervalos)
+            pointTime = point1.pointData['Hora']
+            pointTime = datetime.strptime(pointTime,'%Y-%d-%m %H:%M:%S') #converte string para datahora
+            pointTime2 = point2.pointData['Hora']
+            pointTime2 = datetime.strptime(pointTime2,'%Y-%d-%m %H:%M:%S')
 
-            '''
-            if(intervalo > maxDelta):
-                print(intervalo.total_seconds())
-            '''
+            timeGap = pointTime2-pointTime
+            timeGaps.append(timeGap.total_seconds())
 
-    #print(max(intervalos))
+            coordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
 
-    plt.hist(intervalos,density=True,bins=1601)
-    plt.xlabel('segundos')
-    plt.ylabel('frequencia')
-    plt.show()
+    for i in coordGaps:
+        print(i)
