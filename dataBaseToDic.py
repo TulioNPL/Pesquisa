@@ -99,7 +99,7 @@ with open('./sortById/roma_12hTo13h_sorted_by_id.csv') as file:
                             tempo = 0
                             flag = False
 
-                    if(tempo > 15.0):
+                    if(tempo > 30.0):
                         flag = True
 
         print('\n'+ key + ': ', end='')
