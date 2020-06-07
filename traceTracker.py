@@ -19,8 +19,6 @@ def map():
     horario = new[1]
     horario = horario.to_numpy()
 
-    print(len(longitudes))
-
     BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
 
     if(os.path.exists('./graficos/backmaps/trackmap_id_'+ str(ID) +'.png')):
@@ -31,6 +29,8 @@ def map():
         ax.set_xlim(BBox[0],BBox[1])
         ax.set_ylim(BBox[2],BBox[3])
         ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
+        ax.tick_params(labelsize=8)
+        plt.tight_layout(0) 
         plt.savefig("./graficos/trackmap_id_"+str(ID)+".png", dpi=400)
         plt.close()
     else:
@@ -74,5 +74,5 @@ def track():
 
 #Driver
 
-#map()
-track()
+map()
+#track()
