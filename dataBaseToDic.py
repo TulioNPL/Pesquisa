@@ -12,6 +12,8 @@ newDict = {}
 maxDelta = timedelta(hours=0,minutes=0,seconds=30)
 timeGaps = {} #lista com os intervalos de tempos entre os pontos
 coordGaps = {} #lista com os intervalos de distancias entre os pontos
+allTimeGaps = []
+allCoordGaps = []
 travels = [] #lista de viagens
 keys = [] #lista dos ids
 
@@ -25,7 +27,20 @@ def convertHaversine(x1,y1,x2,y2):
 
     return d* 1000 #retorna o valor em metros
 
-with open('./sortById/roma_12hTo13h_sorted_by_id.csv') as file:
+def histTempo(allTimeGaps):
+    print(max(allTimeGaps))
+    print(min(allTimeGaps))
+    plt.hist(allTimeGaps, bins=1000)
+    plt.yscale('log')
+    plt.show()
+
+def histDistancia(allCoordGaps):
+    plt.hist(allCoordGaps, bins=1000)
+    plt.yscale('log')
+    plt.show()
+
+with open('./roma_calibrated_sorted.csv') as file:
+#with open('./sortById/roma_12hTo13h_sorted_by_id.csv') as file:
     reader = csv.DictReader(file)
 
     line = reader.__next__() #le a primeira linha
@@ -72,10 +87,15 @@ with open('./sortById/roma_12hTo13h_sorted_by_id.csv') as file:
 
             timeGap = pointTime2-pointTime
             timeGaps[key].append(timeGap.total_seconds())
+            allTimeGaps.append(timeGap.total_seconds())
 
             coordGaps[key].append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
+            allCoordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
 
+    histTempo(allTimeGaps)
+    #histDistancia(allCoordGaps)
 
+'''
     separator = {} #dict em que cada chave contera uma lista com os indices onde as separações devem ser feitas
 
     #ciclo para gerar os indices onde as viagens de cada key serão divididas
@@ -104,3 +124,4 @@ with open('./sortById/roma_12hTo13h_sorted_by_id.csv') as file:
 
         print('\n'+ key + ': ', end='')
         print(separator[key])
+'''
