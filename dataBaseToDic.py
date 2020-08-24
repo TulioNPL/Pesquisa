@@ -28,15 +28,17 @@ def convertHaversine(x1,y1,x2,y2):
     return d* 1000 #retorna o valor em metros
 
 def histTempo(allTimeGaps):
-    print(max(allTimeGaps))
-    print(min(allTimeGaps))
     plt.hist(allTimeGaps, bins=1000)
+    plt.title('Histograma: Tempo entre pontos')
     plt.yscale('log')
+    plt.savefig('./graficos/histTempo.png',dpi=400)
     plt.show()
 
 def histDistancia(allCoordGaps):
     plt.hist(allCoordGaps, bins=1000)
+    plt.title('Histograma: Distancia entre pontos')
     plt.yscale('log')
+    plt.savefig('./graficos/histDistancia.png',dpi=400)
     plt.show()
 
 with open('./roma_calibrated_sorted.csv') as file:
@@ -92,8 +94,8 @@ with open('./roma_calibrated_sorted.csv') as file:
             coordGaps[key].append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
             allCoordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
 
-    histTempo(allTimeGaps)
-    #histDistancia(allCoordGaps)
+    #histTempo(allTimeGaps)
+    histDistancia(allCoordGaps)
 
 '''
     separator = {} #dict em que cada chave contera uma lista com os indices onde as separações devem ser feitas
