@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 # Separa o csv em diversos arquivos menores pela hora do dia e ordena por data-hora ou id
 ###
 
+'''
+
 for i in range(0,24):
     lower_limit = dt.datetime(2014,2,4,i,0,0)
     upper_limit = dt.datetime(2014,2,4,i,59,59)
@@ -21,4 +23,13 @@ for i in range(0,24):
     #df2 = df2.sort_values('time')   #ordena o DataFrame por "data-hora"
     df2 = df2.sort_values(['id','time'])   #ordena o DataFrame por "id"
     nome = './sortById/roma_' + str(i) + 'hTo' + str(i+1) + 'h_sorted_by_id.csv'
-    df2.to_csv(nome, index = False) #salva o DataFrame para CSV
+    df2.to_csv(nome, index = False) #salva o DataFrame para CSV '''
+
+###
+#   Ordena o csv em horario e id
+###
+
+df = pd.read_csv('~/Dropbox/my.folder/Pesquisa/Coding/Dados/roma_calibrated.csv')
+df['time'] = pd.to_datetime(df['time'])
+df = df.sort_values(['id','time'])
+df.to_csv('./roma_calibrated_sorted.csv', index = False)
