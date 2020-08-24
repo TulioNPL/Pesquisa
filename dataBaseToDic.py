@@ -16,6 +16,24 @@ allTimeGaps = []
 allCoordGaps = []
 travels = [] #lista de viagens
 keys = [] #lista dos ids
+limitDist = 5
+limitTempo = 5
+
+def tempoDoisPontos(i,j,timeGaps):
+    tempo = 0
+
+    for k in range(i,j):
+        dist += timeGaps[k]
+
+    return tempo
+
+def distDoisPontos(i,j,coordGaps):
+    dist = 0
+
+    for k in range(i,j):
+        dist += coordGaps[k]
+
+    return dist
 
 def convertHaversine(x1,y1,x2,y2):
     R = 6378.137
@@ -95,11 +113,31 @@ with open('./roma_calibrated_sorted.csv') as file:
             allCoordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
 
     #histTempo(allTimeGaps)
-    histDistancia(allCoordGaps)
+    #histDistancia(allCoordGaps)
 
-'''
     separator = {} #dict em que cada chave contera uma lista com os indices onde as separações devem ser feitas
 
+    i = 0
+    numPontos = len(timeGaps) + 1
+    while i < numPontos:
+        j = i + 1
+
+        while j < numPontos:
+            dist =  distDoisPontos(i,j,coordGaps)
+
+            if dist > limitDist:
+                tempo = tempoDoisPontos(i,j,timeGaps)
+
+                if tempo > limitTempo:
+                    temp = 1 #linha inutil
+                    ### CRIA NOVO PONTO DE PARADA E INSERE NA LISTA
+                i = j
+                j = numPontos #forca a parada do ciclo
+                
+            j = j + 1
+    
+
+'''
     #ciclo para gerar os indices onde as viagens de cada key serão divididas
     for key in keys:
         flag = False #Se true, entao o tempo decorrido permite a criacao de uma nova trip
