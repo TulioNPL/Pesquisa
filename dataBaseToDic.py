@@ -141,8 +141,7 @@ with open('./roma_calibrated_sorted.csv') as file:
                     tempo = tempoDoisPontos(i,j,pontos[key])
 
                     if tempo > limitTempo:
-                        print('linha inutil') #remover
-
+                        print(i + ' -> ' + j) #teste
                         ### CRIA NOVO PONTO DE PARADA E INSERE NA LISTA
 
                     i = j
