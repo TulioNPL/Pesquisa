@@ -8,30 +8,39 @@ import csv
 import math
 import matplotlib.pyplot as plt
 
-newDict = {}
-maxDelta = timedelta(hours=0,minutes=0,seconds=30)
-timeGaps = {} #lista com os intervalos de tempos entre os pontos
-coordGaps = {} #lista com os intervalos de distancias entre os pontos
-allTimeGaps = []
-allCoordGaps = []
+pontos = {} #dictionary com os pontos referentes a cada id
+timeGaps = {} #dictionary com os intervalos de tempos entre os pontos para cada id
+coordGaps = {} #dictionary os intervalos de distancias entre os pontos para cada id
+allTimeGaps = [] #lista com todos intervalos de tempo entre os pontos
+allCoordGaps = [] #lista com todos intervalos de distancia entre os pontos
 travels = [] #lista de viagens
 keys = [] #lista dos ids
 limitDist = 5
 limitTempo = 5
 
-def tempoDoisPontos(i,j,timeGaps):
-    tempo = 0
+def tempoDoisPontos(i,j,pontos):
+    ponto1 = pontos[i]
+    ponto2 = pontos[j]
+    pointTime = ponto1.pointData['Hora']
+    pointTime = datetime.strptime(pointTime,'%Y-%d-%m %H:%M:%S')
+    pointTime2 = ponto2.pointData['Hora']
+    pointTime2 = datetime.strptime(pointTime2,'%Y-%d-%m %H:%M:%S')
 
-    for k in range(i,j):
-        dist += timeGaps[k]
+    tempo = pointTime2-pointTime
 
     return tempo
 
-def distDoisPontos(i,j,coordGaps):
+def distDoisPontos(i,j,pontos):
     dist = 0
 
     for k in range(i,j):
-        dist += coordGaps[k]
+        point1 = pontos[k]
+        point2 = pontos[k+1]
+
+        pointCoord1 = point1.pointData['Coord']
+        pointCoord2 = point2.pointData['Coord']
+
+        dist += convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1])
 
     return dist
 
@@ -67,13 +76,13 @@ with open('./roma_calibrated_sorted.csv') as file:
     tag = line['id']
     keys.append(line['id'])
 
-    newDict[tag] = [] #cria uma lista onde serao adicionados os pontos de cada id
+    pontos[tag] = [] #cria uma lista onde serao adicionados os pontos de cada id
     
     #Ciclo que percorre todas as linhas, le os pontos e os salva nos respectivos ids no Dictionary
     for line in reader:
         if tag != line['id']: #Quando a tag for modificada, cria uma nova key
             tag = line['id']
-            newDict[tag] = []
+            pontos[tag] = []
             keys.append(line['id'])
 
         coord = (float(line['lat_y']),float(line['long_x']))
@@ -85,10 +94,10 @@ with open('./roma_calibrated_sorted.csv') as file:
         pnt['Coord'] = coord
         newInstance = Ponto(pnt)
         
-        newDict[tag].append(newInstance)
+        pontos[tag].append(newInstance)
 
     #for que percorre cada key no dict
-    for key,value in newDict.items():
+    for key,value in pontos.items():
         timeGaps[key] = []
         coordGaps[key] = []
 
@@ -117,24 +126,29 @@ with open('./roma_calibrated_sorted.csv') as file:
 
     separator = {} #dict em que cada chave contera uma lista com os indices onde as separações devem ser feitas
 
-    i = 0
-    numPontos = len(timeGaps) + 1
-    while i < numPontos:
-        j = i + 1
+    for key in keys:
+        separator[key] = []
+        numPontos = len(pontos[key])
 
-        while j < numPontos:
-            dist =  distDoisPontos(i,j,coordGaps)
+        i = 0
+        while i < numPontos:
+            j = i + 1
 
-            if dist > limitDist:
-                tempo = tempoDoisPontos(i,j,timeGaps)
+            while j < numPontos:
+                dist =  distDoisPontos(i,j,pontos[key])
 
-                if tempo > limitTempo:
-                    temp = 1 #linha inutil
-                    ### CRIA NOVO PONTO DE PARADA E INSERE NA LISTA
-                i = j
-                j = numPontos #forca a parada do ciclo
-                
-            j = j + 1
+                if dist > limitDist:
+                    tempo = tempoDoisPontos(i,j,pontos[key])
+
+                    if tempo > limitTempo:
+                        print('linha inutil') #remover
+
+                        ### CRIA NOVO PONTO DE PARADA E INSERE NA LISTA
+
+                    i = j
+                    j = numPontos #forca a parada do ciclo
+                    
+                j = j + 1
     
 
 '''
