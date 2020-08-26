@@ -2,6 +2,10 @@
 
 -> Desenvolvimento algoritmo de detecção de paradas
 
+### • Proximos passos
+-> Refatorar código
+
+-> implementar limites e testar algoritmo de detecção de paradas
 
 ____________________________________________________________
 # Pesquisa
@@ -23,20 +27,20 @@ O trace está contido em um arquivo ".csv", onde cada linha representa um ponto 
 |  101 |  2014-02-04 05:00:03 | 12.48875 | 41.90301 | 0 |
 
 # Etapas
-### 1 - Análise inicial
-### 2 - Algoritmo de detecção de paradas
-### 3 - Estudo da base de dados
-### 4 - Enriquecimento da base original e comparação dos resultados
+### • 1 - Análise inicial
+### • 2 - Algoritmo de detecção de paradas
+### • 3 - Estudo da base de dados
+### • 4 - Enriquecimento da base original e comparação dos resultados
 
 # Análise inicial do trace de Roma
 Pelo gráfico de densidade de veículos podemos inferir que há quatro picos principais de fluxo de veículos na cidade de Roma. Nos intervalos 7h-8h, 11h-12h, 15h-16h e 19h-20h. Esse fato demonstra o funcionamento de uma cidade, onde, normalmente, os cidadãos têm um horário para sair de casa e ir ao trabalho, um horário de almoço e um horário de retorno.
 
-### Gráfico de Densidade de veículos x Hora do dia
+### • Gráfico de Densidade de veículos x Hora do dia
 ![Alt text](/graficos/dens_carros.png?raw=true "Densidade veicular x Hora do dia")
 
 O mapa de calor do horário de 12h às 13h exibe o fluxo intenso de veículos concentrado na região central de Roma, além de um fluxo na direção sudoeste da cidade onde se localizam o aeroporto e porto da região.
 
-### Mapa de calor das 12h às 13h na cidade de Roma
+### • Mapa de calor das 12h às 13h na cidade de Roma
 ![Alt text](/graficos/map_12hTo13h.png?raw=true "Mapa de calor - Roma - 12h-13h")
 
 Para plotar outros mapas basta digitar no terminal na pasta do trabalho:
