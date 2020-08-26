@@ -27,7 +27,7 @@ O trace está contido em um arquivo ".csv", onde cada linha representa um ponto 
 |  101 |  2014-02-04 05:00:03 | 12.48875 | 41.90301 | 0 |
 
 # Etapas
-### • 1 - Análise inicial
+### • 1 - Análise inicial √
 ### • 2 - Algoritmo de detecção de paradas
 ### • 3 - Estudo da base de dados
 ### • 4 - Enriquecimento da base original e comparação dos resultados
