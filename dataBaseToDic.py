@@ -44,6 +44,7 @@ def distDoisPontos(i,j,pontos):
 
     return dist
 
+#testar função
 def convertHaversine(x1,y1,x2,y2):
     R = 6378.137
     dLat = x2 * math.pi / 180 - x1 * math.pi / 180
@@ -119,7 +120,7 @@ with open('./roma_calibrated_sorted.csv') as file:
             allTimeGaps.append(timeGap.total_seconds())
 
             coordGaps[key].append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
-            allCoordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
+            allCoordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1])) ### Conferir valores em metros
 
     #histTempo(allTimeGaps)
     #histDistancia(allCoordGaps)
@@ -137,10 +138,10 @@ with open('./roma_calibrated_sorted.csv') as file:
             while j < numPontos:
                 dist =  distDoisPontos(i,j,pontos[key])
 
-                if dist > limitDist:
+                if dist > limitDist: 
                     tempo = tempoDoisPontos(i,j,pontos[key])
 
-                    if tempo > limitTempo:
+                    if tempo > limitTempo: #criar limite de tempo com dateTime
                         print(i + ' -> ' + j) #teste
                         ### CRIA NOVO PONTO DE PARADA E INSERE NA LISTA
 
