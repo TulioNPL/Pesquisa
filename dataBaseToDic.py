@@ -113,8 +113,8 @@ def stayPoint_Detection():
                     j = numPontos #forca a parada do ciclo
                 j = j + 1
             
-            if j == numPontos:
-                i = numPontos
+            if j == numPontos: #LINHA ADICIONADA
+                i = numPontos  #LINHA ADICIONADA
     print('Pronto!')
 
 def lerDados():
