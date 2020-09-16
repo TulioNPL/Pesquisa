@@ -18,6 +18,98 @@ keys = [] #lista dos ids
 limitDist = 5
 limitTempo = timedelta(minutes=10)
 
+def boxplotDistancia():
+    """Função que plota os boxplots de todos veículos"""
+
+    fig1, ax1 = plt.subplots()
+    ax1.set_title('Boxplot de Distância de Todos veículos')
+    my_boxes = ax1.boxplot(allCoordGaps)
+    plt.yscale('log')
+    plt.ylabel('Distância em metros')
+
+    # Grab the relevant Line2D instances from the boxplot dictionary
+    iqr = my_boxes['boxes'][0]
+    caps = my_boxes['caps']
+    med = my_boxes['medians'][0]
+    fly = my_boxes['fliers'][0]
+
+    # The x position of the median line
+    xpos = med.get_xdata()
+
+    # Lets make the text have a horizontal offset which is some 
+    # fraction of the width of the box
+    xoff = 0.10 * (xpos[1] - xpos[0])
+
+    # The x position of the labels
+    xlabel = xpos[1] + xoff
+
+    # The median is the y-position of the median line
+    median = med.get_ydata()[1]
+
+    # The 25th and 75th percentiles are found from the
+    # top and bottom (max and min) of the box
+    pc25 = iqr.get_ydata().min()
+    pc75 = iqr.get_ydata().max()
+
+    # The caps give the vertical position of the ends of the whiskers
+    capbottom = caps[0].get_ydata()[0]
+    captop = caps[1].get_ydata()[0]
+
+    # Make some labels on the figure using the values derived above
+    ax1.text(xlabel, median,'Mediana = {:6.3g}'.format(median), va='center')
+    ax1.text(xlabel, pc25,'1˚ quartil = {:6.3g}'.format(pc25), va='center')
+    ax1.text(xlabel, pc75,'3˚ quartil = {:6.3g}'.format(pc75), va='center')
+    ax1.text(xlabel, capbottom,'Limite Inferior = {:6.3g}'.format(capbottom), va='center')
+    ax1.text(xlabel, captop,'Limite Superior = {:6.3g}'.format(captop), va='center')
+    plt.savefig('./graficos/Boxplots_distancias/boxplot_distancia_geral.png',dpi=400)
+    plt.show()
+
+def boxplotTempo():
+    """Função que plota os boxplots de todos veículos"""
+
+    fig1, ax1 = plt.subplots()
+    ax1.set_title('Boxplot de Tempo de Todos veículos')
+    my_boxes = ax1.boxplot(allTimeGaps)
+    plt.yscale('log')
+    plt.ylabel('Tempo em segundos')
+
+     # Grab the relevant Line2D instances from the boxplot dictionary
+    iqr = my_boxes['boxes'][0]
+    caps = my_boxes['caps']
+    med = my_boxes['medians'][0]
+    fly = my_boxes['fliers'][0]
+
+    # The x position of the median line
+    xpos = med.get_xdata()
+
+    # Lets make the text have a horizontal offset which is some 
+    # fraction of the width of the box
+    xoff = 0.10 * (xpos[1] - xpos[0])
+
+    # The x position of the labels
+    xlabel = xpos[1] + xoff
+
+    # The median is the y-position of the median line
+    median = med.get_ydata()[1]
+
+    # The 25th and 75th percentiles are found from the
+    # top and bottom (max and min) of the box
+    pc25 = iqr.get_ydata().min()
+    pc75 = iqr.get_ydata().max()
+
+    # The caps give the vertical position of the ends of the whiskers
+    capbottom = caps[0].get_ydata()[0]
+    captop = caps[1].get_ydata()[0]
+
+    # Make some labels on the figure using the values derived above
+    ax1.text(xlabel, median,'Mediana = {:6.3g}'.format(median), va='center')
+    ax1.text(xlabel, pc25,'1˚ quartil = {:6.3g}'.format(pc25), va='center')
+    ax1.text(xlabel, pc75,'3˚ quartil = {:6.3g}'.format(pc75), va='center')
+    ax1.text(xlabel, capbottom,'Limite inferior = {:6.3g}'.format(capbottom), va='center')
+    ax1.text(xlabel, captop,'Limite Superior = {:6.3g}'.format(captop), va='center')
+    plt.savefig('./graficos/Boxplots_tempo/boxplot_tempo_geral.png',dpi=400)
+    plt.show()
+
 def tempoDoisPontos(i,j,pontos):
     """Função para calcular o tempo entre dois pontos"""
 
@@ -63,7 +155,6 @@ def convertHaversine(x1,y1,x2,y2):
 def histTempo():
     """Função para plotar um histograma dos tempos entre pontos consecutivos"""
 
-    lerDados()
     plt.hist(allTimeGaps, bins=1000)
     plt.title('Histograma: Tempo entre pontos')
     plt.yscale('log')
@@ -75,7 +166,6 @@ def histTempo():
 def histDistancia():
     """Função para plotar um histograma das distâncias entre pontos consecutivos"""
 
-    lerDados()
     plt.hist(allCoordGaps, bins=1000)
     plt.title('Histograma: Distancia entre pontos')
     plt.yscale('log')
@@ -86,8 +176,7 @@ def histDistancia():
 
 def stayPoint_Detection():
     """Algoritmo para detecção de paradas"""
-
-    lerDados()
+    
     separator = {} #dict em que cada chave contera uma lista com os indices onde as separações devem ser feitas
 
     print('Coletando pontos de parada...')
@@ -178,12 +267,20 @@ def lerDados():
         print('Pronto!')
 
 #Driver
-
-print("Digite: (1)Gerar Histograma de Tempo     (2)Gerar Histograma de Distância   (3)Gerar lista de paradas")
+lerDados()
+print("\nDigite:\n (0)Sair\n (1)Gerar Histograma de Tempo\n (2)Gerar Histograma de Distância\n (3)Gerar lista de paradas\n (4)Gerar boxplot de tempo\n (5)Gerar boxplot de distância")
 resp = int(input())
-if resp == 1:
-    histTempo()
-elif resp == 2:
-    histDistancia()
-elif resp == 3:
-    stayPoint_Detection()
+
+while(resp != 0):
+    if resp == 1:
+        histTempo()
+    elif resp == 2:
+        histDistancia()
+    elif resp == 3:
+        stayPoint_Detection()
+    elif resp == 4:
+        boxplotTempo()
+    elif resp == 5:
+        boxplotDistancia()
+    print("\nDigite:\n (0)Sair\n (1)Gerar Histograma de Tempo\n (2)Gerar Histograma de Distância\n (3)Gerar lista de paradas\n (4)Gerar boxplot de tempo\n (5)Gerar boxplot de distância")
+    resp = int(input())
