@@ -11,12 +11,13 @@ import matplotlib.pyplot as plt
 pontos = {} #dictionary com os pontos referentes a cada id
 timeGaps = {} #dictionary com os intervalos de tempos entre os pontos para cada id
 coordGaps = {} #dictionary os intervalos de distancias entre os pontos para cada id
+separator = {} #dict em que cada chave contera uma lista com os indices onde as separações devem ser feitas
 allTimeGaps = [] #lista com todos intervalos de tempo entre os pontos
 allCoordGaps = [] #lista com todos intervalos de distancia entre os pontos
 travels = [] #lista de viagens
 keys = [] #lista dos ids
-limitDist = 5
-limitTempo = timedelta(minutes=10)
+limitDist = 21
+limitTempo = timedelta(seconds=2)
 
 def boxplotDistancia():
     """Função que plota os boxplots de todos veículos"""
@@ -177,14 +178,11 @@ def histDistancia():
 def stayPoint_Detection():
     """Algoritmo para detecção de paradas"""
     
-    separator = {} #dict em que cada chave contera uma lista com os indices onde as separações devem ser feitas
-
     print('Coletando pontos de parada...')
     for key in keys:
         separator[key] = []
         numPontos = len(pontos[key])
-        print('Key = ' + str(key))
-
+        
         i = 0
         while i < numPontos:
             j = i + 1
@@ -193,18 +191,18 @@ def stayPoint_Detection():
                 if dist > limitDist: 
                     tempo = tempoDoisPontos(i,j,pontos[key])  
                     
-                    if tempo > limitTempo: #criar limite de tempo com dateTime
-                        print(tempo)
-                        print(str(i) + ' -> ' + str(j) + '    ||||    Tempo: ' + str(tempo)) #teste
-                        ### CRIAR NOVO PONTO DE PARADA E INSERIR NA LISTA
-                    
+                    if tempo > limitTempo:
+                       separator[key].append(i)
+
                     i = j    
                     j = numPontos #forca a parada do ciclo
                 j = j + 1
             
-            if j == numPontos: #LINHA ADICIONADA
-                i = numPontos  #LINHA ADICIONADA
+            if j == numPontos:
+                i = numPontos
+        separator[key].append(numPontos-1) #Adiciona ponto final
     print('Pronto!')
+    print(separator)
 
 def lerDados():
     """Função para ler a base de dados e calcular as variações de tempo e distâncias"""
