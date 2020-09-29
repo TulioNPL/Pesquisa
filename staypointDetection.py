@@ -175,10 +175,21 @@ def histDistancia():
     plt.savefig('./graficos/histDistancia.png',dpi=400)
     plt.show()
 
+def printaCorridas():
+    print("\n" + str(keys))
+    veic = int(input("Selecione um ID da lista acima: "))
+    strveic = str(veic)
+
+    if strveic in keys:
+        print("\nLista de paradas:")
+        print(separator[strveic])
+    else:
+        print("O ID nao existe")
+
 def stayPoint_Detection():
     """Algoritmo para detecção de paradas"""
     
-    print('Coletando pontos de parada...')
+    print('\nColetando pontos de parada...')
     for key in keys:
         separator[key] = []
         numPontos = len(pontos[key])
@@ -202,7 +213,7 @@ def stayPoint_Detection():
                 i = numPontos
         separator[key].append(numPontos-1) #Adiciona ponto final
     print('Pronto!')
-    print(separator)
+    printaCorridas()
 
 def lerDados():
     """Função para ler a base de dados e calcular as variações de tempo e distâncias"""
@@ -266,8 +277,8 @@ def lerDados():
 
 #Driver
 lerDados()
-print("\nDigite:\n (0)Sair\n (1)Gerar Histograma de Tempo\n (2)Gerar Histograma de Distância\n (3)Gerar lista de paradas\n (4)Gerar boxplot de tempo\n (5)Gerar boxplot de distância")
-resp = int(input())
+print("\nMenu:\n (0)Sair\n (1)Gerar Histograma de Tempo\n (2)Gerar Histograma de Distância\n (3)Gerar lista de paradas\n (4)Gerar boxplot de tempo\n (5)Gerar boxplot de distância")
+resp = int(input("Digite sua opção: "))
 
 while(resp != 0):
     if resp == 1:
