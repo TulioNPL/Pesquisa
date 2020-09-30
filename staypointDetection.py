@@ -7,6 +7,8 @@ from ponto import Ponto
 import csv
 import math
 import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
 pontos = {} #dictionary com os pontos referentes a cada id
 timeGaps = {} #dictionary com os intervalos de tempos entre os pontos para cada id
@@ -183,6 +185,24 @@ def printaCorridas():
     if strveic in keys:
         print("\nLista de paradas:")
         print(separator[strveic])
+        print()
+
+        #Pegar lista de pontos do ID
+        df = pd.read_csv("./roma_calibrated_sorted.csv")
+        df = df.loc[df['id'] == veic]
+        print(df)
+
+        for i in range(len(separator[strveic])-1):
+            inicio = int(separator[strveic][i])
+            fim = int(separator[strveic][i+1])
+            caminho = df.iloc[inicio:fim+1]
+            print(str(inicio) + "->" + str(fim))
+            print(caminho)
+            
+        #Se a imagem de fundo existir, iterar entre os pontos da lista de paradas e printar todas coordenadas entre i e i+1
+        #Pegar Max e Min das coordenadas geograficas
+        #Se a imagem nao existir printar os Max e Min das coordenadas e pedir ao usuario para criar a imagem
+
     else:
         print("O ID nao existe")
 
