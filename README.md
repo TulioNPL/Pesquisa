@@ -1,11 +1,5 @@
-# Update 23/08 - 29/08
-
--> Desenvolvimento algoritmo de detecção de paradas
-
 ### • Proximos passos
--> Refatorar código
-
--> implementar limites e testar algoritmo de detecção de paradas
+-> Desenvolvimento algoritmo para printar as viagens individuais
 
 ____________________________________________________________
 # Pesquisa
