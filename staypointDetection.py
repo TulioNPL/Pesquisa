@@ -9,7 +9,9 @@ import math
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import os.path
 
+listaCores = ['#d1432a','#34f32a','#ff3456','#003456']
 pontos = {} #dictionary com os pontos referentes a cada id
 timeGaps = {} #dictionary com os intervalos de tempos entre os pontos para cada id
 coordGaps = {} #dictionary os intervalos de distancias entre os pontos para cada id
@@ -183,26 +185,43 @@ def printaCorridas():
     strveic = str(veic)
 
     if strveic in keys:
-        print("\nLista de paradas:")
-        print(separator[strveic])
-        print()
-
-        #Pegar lista de pontos do ID
         df = pd.read_csv("./roma_calibrated_sorted.csv")
         df = df.loc[df['id'] == veic]
-        print(df)
 
-        for i in range(len(separator[strveic])-1):
-            inicio = int(separator[strveic][i])
-            fim = int(separator[strveic][i+1])
-            caminho = df.iloc[inicio:fim+1]
-            print(str(inicio) + "->" + str(fim))
-            print(caminho)
-            
+        BBox = BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
+
+        if os.path.exists('./graficos/backmaps/trackmap_id_'+ str(veic) +'.png'):
+            ruh_m = plt.imread('./graficos/backmaps/trackmap_id_'+ str(veic) +'.png')
+            fig, ax = plt.subplots()
+
+            cor = 0
+            for i in range(len(separator[strveic])-1):
+                inicio = int(separator[strveic][i])
+                fim = int(separator[strveic][i+1])
+                caminho = df.iloc[inicio:fim+1]
+
+                longitudes = caminho['long_x'].to_numpy()
+                latitudes = caminho['lat_y'].to_numpy()
+
+                ax.scatter(longitudes, latitudes, zorder=0.3, alpha=0.3, c=listaCores[cor], s=2)
+                cor +=1 
+                if cor > 3:
+                    cor = 0
+            ax.set_xlim(BBox[0],BBox[1])
+            ax.set_ylim(BBox[2],BBox[3])
+            ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
+            ax.tick_params(labelsize=8)
+            plt.tight_layout(0) 
+            plt.savefig("./graficos/trackmap_id_"+str(veic)+".png", dpi=400)
+            plt.close()          
+
         #Se a imagem de fundo existir, iterar entre os pontos da lista de paradas e printar todas coordenadas entre i e i+1
         #Pegar Max e Min das coordenadas geograficas
         #Se a imagem nao existir printar os Max e Min das coordenadas e pedir ao usuario para criar a imagem
-
+        else:
+            print('Por favor crie o backmap com as seguintes coordenadas: ')
+            print(BBox)
+            print('Depois salve o arquivo no path: ' + './graficos/backmaps/trackmap_id_'+ str(veic) +'.png')
     else:
         print("O ID nao existe")
 
