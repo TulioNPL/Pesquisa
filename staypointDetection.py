@@ -181,50 +181,54 @@ def histDistancia():
 
 def printaCorridas():
     print("\n" + str(keys))
-    veic = int(input("Selecione um ID da lista acima: "))
+    veic = int(input("Selecione um ID da lista acima ou 0 para sair: "))
     strveic = str(veic)
 
-    if strveic in keys:
-        df = pd.read_csv("./roma_calibrated_sorted.csv")
-        df = df.loc[df['id'] == veic]
+    while veic != 0:
+        if strveic in keys:
+            df = pd.read_csv("./roma_calibrated_sorted.csv")
+            df = df.loc[df['id'] == veic]
 
-        BBox = BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
+            BBox = BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
 
-        if os.path.exists('./graficos/backmaps/trackmap_id_'+ str(veic) +'.png'):
-            ruh_m = plt.imread('./graficos/backmaps/trackmap_id_'+ str(veic) +'.png')
-            fig, ax = plt.subplots()
+            if os.path.exists('./graficos/backmaps/trackmap_id_'+ str(veic) +'.png'):
+                ruh_m = plt.imread('./graficos/backmaps/trackmap_id_'+ str(veic) +'.png')
+                fig, ax = plt.subplots()
 
-            cor = 0
-            for i in range(len(separator[strveic])-1):
-                inicio = int(separator[strveic][i])
-                fim = int(separator[strveic][i+1])
-                caminho = df.iloc[inicio:fim+1]
+                cor = 0
+                for i in range(len(separator[strveic])-1):
+                    inicio = int(separator[strveic][i])
+                    fim = int(separator[strveic][i+1])
+                    caminho = df.iloc[inicio:fim+1]
 
-                longitudes = caminho['long_x'].to_numpy()
-                latitudes = caminho['lat_y'].to_numpy()
+                    longitudes = caminho['long_x'].to_numpy()
+                    latitudes = caminho['lat_y'].to_numpy()
 
-                ax.scatter(longitudes, latitudes, zorder=0.3, alpha=0.3, c=listaCores[cor], s=2)
-                cor +=1 
-                if cor > 3:
-                    cor = 0
-                    
-            ax.set_xlim(BBox[0],BBox[1])
-            ax.set_ylim(BBox[2],BBox[3])
-            ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
-            ax.tick_params(labelsize=8)
-            plt.tight_layout(0) 
-            plt.savefig("./graficos/trackmap_id_"+str(veic)+".png", dpi=400)
-            plt.close()          
+                    ax.scatter(longitudes, latitudes, zorder=0.3, alpha=0.3, c=listaCores[cor], s=2)
+                    cor +=1 
+                    if cor > 3:
+                        cor = 0
+                        
+                ax.set_xlim(BBox[0],BBox[1])
+                ax.set_ylim(BBox[2],BBox[3])
+                ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
+                ax.tick_params(labelsize=8)
+                plt.tight_layout(0) 
+                plt.savefig("./graficos/trackmap_id_"+str(veic)+".png", dpi=400)
+                plt.close()          
 
-        #Se a imagem de fundo existir, iterar entre os pontos da lista de paradas e printar todas coordenadas entre i e i+1
-        #Pegar Max e Min das coordenadas geograficas
-        #Se a imagem nao existir printar os Max e Min das coordenadas e pedir ao usuario para criar a imagem
+            #Se a imagem de fundo existir, iterar entre os pontos da lista de paradas e printar todas coordenadas entre i e i+1
+            #Pegar Max e Min das coordenadas geograficas
+            #Se a imagem nao existir printar os Max e Min das coordenadas e pedir ao usuario para criar a imagem
+            else:
+                print('Por favor crie o backmap com as seguintes coordenadas: ')
+                print(BBox)
+                print('Depois salve o arquivo no path: ' + './graficos/backmaps/trackmap_id_'+ str(veic) +'.png')
         else:
-            print('Por favor crie o backmap com as seguintes coordenadas: ')
-            print(BBox)
-            print('Depois salve o arquivo no path: ' + './graficos/backmaps/trackmap_id_'+ str(veic) +'.png')
-    else:
-        print("O ID nao existe")
+            print("O ID nao existe")
+
+        print("\n" + str(keys))
+        veic = int(input("Selecione outro ID da lista acima ou 0 para sair: "))
 
 def stayPoint_Detection():
     """Algoritmo para detecção de paradas"""
@@ -331,5 +335,5 @@ while(resp != 0):
         boxplotTempo()
     elif resp == 5:
         boxplotDistancia()
-    print("\nDigite:\n (0)Sair\n (1)Gerar Histograma de Tempo\n (2)Gerar Histograma de Distância\n (3)Gerar lista de paradas\n (4)Gerar boxplot de tempo\n (5)Gerar boxplot de distância")
+    print("\nMenu:\n (0)Sair\n (1)Gerar Histograma de Tempo\n (2)Gerar Histograma de Distância\n (3)Gerar lista de paradas\n (4)Gerar boxplot de tempo\n (5)Gerar boxplot de distância")
     resp = int(input())
