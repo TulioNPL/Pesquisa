@@ -21,7 +21,7 @@ allCoordGaps = [] #lista com todos intervalos de distancia entre os pontos
 travels = [] #lista de viagens
 keys = [] #lista dos ids
 limitDist = 21
-limitTempo = timedelta(seconds=2)
+limitTempo = timedelta(seconds=10)
 
 def boxplotDistancia():
     """Função que plota os boxplots de todos veículos"""
