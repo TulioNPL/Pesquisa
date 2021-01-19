@@ -239,22 +239,16 @@ def stayPoint_Detection():
         numPontos = len(pontos[key])
         
         i = 0
-        while i < numPontos:
-            j = i + 1
-            while j < numPontos:      
-                dist =  distDoisPontos(i,j,pontos[key])
-                if dist > limitDist: 
-                    tempo = tempoDoisPontos(i,j,pontos[key])  
-                    
-                    if tempo > limitTempo:
-                       separator[key].append(i)
+        while i < numPontos-1:   
+            dist =  distDoisPontos(i,i+1,pontos[key])
+            #print(i)
+            if dist > limitDist: 
+                tempo = tempoDoisPontos(i,i+1,pontos[key])  
+                
+                if tempo > limitTempo:
+                    separator[key].append(i)
+            i+=1
 
-                    i = j    
-                    j = numPontos #forca a parada do ciclo
-                j = j + 1
-            
-            if j == numPontos:
-                i = numPontos
         separator[key].append(numPontos-1) #Adiciona ponto final
     print('Pronto!')
     printaCorridas()
