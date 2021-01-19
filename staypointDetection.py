@@ -213,7 +213,7 @@ def printaCorridas():
                 ax.set_ylim(BBox[2],BBox[3])
                 ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
                 ax.tick_params(labelsize=8)
-                plt.tight_layout(0) 
+                plt.tight_layout(pad=0) 
                 plt.savefig("./graficos/trackmap_id_"+str(veic)+".png", dpi=400)
                 plt.close()          
 
