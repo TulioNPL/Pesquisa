@@ -76,7 +76,10 @@ Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> l
 Saida: (SP -> lista com os pontos de parada)             
 ```
 
-Esse algoritmo não tem uma boa detecção de viagens em veículos.
+Esse algoritmo não tem uma boa detecção de viagens em veículos, como pode ser observado no mapa exibido abaixo: 
+![Alt text](/img/trackmap_id_329_old.png?raw=true "Mapa do ID 329 v1")
+
+O principal problema detectado é a grande fragmentação gerada ao se utilizar duas variáveis auxiliares i e j, que definem quais sequências de pontos consecutivos devem ser definidos como momentos de paradas. Essa técnica é funcional para detectar pontos de parada de um pedestre que possivelmente entrou em um edifício e se deslocou dentro dele por um tempo, porém ao se analisar veículos em rodovias, o mesmo é ineficiente. Deste modo, um novo algoritmo precisou ser desenvolvido, em que apenas uma variável auxiliar fosse utilizadas e a análise fosse feita não em um conjunto de pontos, mas de forma singular.
 
 # Referências Bibliográficas
 
