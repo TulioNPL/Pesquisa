@@ -1,5 +1,5 @@
 ### • Proximos passos
--> Desenvolvimento algoritmo para printar as viagens individuais
+-> Documentação da pesquisa até o momento
 
 ____________________________________________________________
 # Pesquisa
