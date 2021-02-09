@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 class calc:
     def qtdCarros(horario):
         """Calcula a qtd de carros durante um periodo de uma hora especificado"""
-        str = './sortById/roma_' + horario + '_sorted_by_id.csv'
+        str = './data/sortById/roma_' + horario + '_sorted_by_id.csv'
         df = pd.read_csv(str)
         numCarros = df['id'].nunique()
         return numCarros
@@ -51,7 +51,7 @@ class calc:
 
         plt.title('Quantidade de carros x Hora do dia')
 
-        plt.savefig('./graficos/carros_x_hora.png')
+        plt.savefig('./img/carros_x_hora.png')
         plt.show()
         
     def histCarros():
@@ -86,7 +86,7 @@ class calc:
         ax.set_yticks(score_label)
         ax.set_yticklabels(score_label)
 
-        plt.savefig("./graficos/perc_carros_x_hora.png")
+        plt.savefig("./img/perc_carros_x_hora.png")
         plt.show()
 
     def funcDensidade():
@@ -109,5 +109,5 @@ class calc:
 
         #print(carros)
         sns.distplot(carros, kde_kws={"color":"r"})
-        plt.savefig('./graficos/dens_carros.png')
+        plt.savefig('./img/dens_carros.png')
         plt.show()

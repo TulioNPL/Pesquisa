@@ -15,7 +15,7 @@ import sys
 def gMapsPlot():
     """Plota o mapa de calor utilizando o Google Maps"""
 
-    df = pd.read_csv('./sortById/roma_12hTo13h_sorted_by_id.csv')
+    df = pd.read_csv('./data/sortById/roma_12hTo13h_sorted_by_id.csv')
     lat = df['lat_y']
     lng = df['long_x']
 
@@ -24,7 +24,7 @@ def gMapsPlot():
 
     gmap = gmplot.GoogleMapPlotter(mid_lat,mid_lng,12) #(x,y,zoom)
     gmap.heatmap(lat,lng)
-    gmap.draw('./graficos/heatmap_12hTo13h.html')
+    gmap.draw('./img/heatmap_12hTo13h.html')
 
 def my_plot(x,y,s,bins=1000):
     """Plota um mapa de calor"""
@@ -38,14 +38,14 @@ def my_plot(x,y,s,bins=1000):
 def heatHistogramPlot():
     """Plota o histograma 2d das posicoes dos veiculos"""
 
-    df = pd.read_csv('./sortById/roma_12hTo13h_sorted_by_id.csv')
+    df = pd.read_csv('./data/sortById/roma_12hTo13h_sorted_by_id.csv')
 
     fig, ax = plt.subplots()
 
     img,extent = my_plot(df.long_x,df.lat_y,128)
     ax.imshow(img,extent=extent,origin='lower',cmap=cm.jet)
     ax.set_title('Heatmap')
-    plt.savefig('./graficos/heat_histogram_12hTo13h.png')
+    plt.savefig('./img/heat_histogram_12hTo13h.png')
     plt.show()
 
 def osmPlot():
@@ -53,13 +53,13 @@ def osmPlot():
 
     horario = str(sys.argv[1])
     
-    path = './sortById/roma_' + horario + '_sorted_by_id.csv'
+    path = './data/sortById/roma_' + horario + '_sorted_by_id.csv'
     print('Acessando dados de: ' + path)
     df = pd.read_csv(path)
 
     BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max()) #limites laterais do mapa
     print(df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
-    ruh_m = plt.imread('./graficos/backmaps/backmap_' + horario + '.png') #mapa a ser usado de fundo
+    ruh_m = plt.imread('./img/backmaps/backmap_' + horario + '.png') #mapa a ser usado de fundo
 
     fig, ax = plt.subplots()
     ax.scatter(df.long_x, df.lat_y, zorder=1, alpha=0.008, c='#d1432a', s=10)
@@ -68,7 +68,7 @@ def osmPlot():
     ax.set_ylim(BBox[2],BBox[3])
     ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
 
-    path = './graficos/map_' + horario + '.png'
+    path = './img/map_' + horario + '.png'
     print('Gráfico salvo como: ' + path)
     plt.savefig(path, dpi=500)
     plt.show()

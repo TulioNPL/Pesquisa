@@ -6,7 +6,7 @@ import csv
 import networkx as nx
 import matplotlib.pyplot as plt
 
-with open('./Dados/roma_calibrated.csv') as file:
+with open('./data/roma_calibrated.csv') as file:
     reader = csv.DictReader(file) 
     g = nx.Graph() #grafo g
     pos = [] #lista de pares ordenados

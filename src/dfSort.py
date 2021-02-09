@@ -32,4 +32,4 @@ for i in range(0,24):
 df = pd.read_csv('~/Dropbox/my.folder/Pesquisa/Coding/Dados/roma_calibrated.csv')
 df['time'] = pd.to_datetime(df['time'])
 df = df.sort_values(['id','time'])
-df.to_csv('./roma_calibrated_sorted.csv', index = False)
+df.to_csv('./data/roma_calibrated_sorted.csv', index = False)
