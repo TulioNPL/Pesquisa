@@ -10,7 +10,7 @@ Orientador: Dr. Felipe Cunha
 Orientando: Tulio Polido
 
 # Objetivo
-Desenvolver uma análise estatística de uma base de dados de táxis de Roma utilizando ferramentas de Data Science como CPython, R Lang e OpenStreetMaps.
+Desenvolver uma análise estatística de uma base de dados de táxis de Roma utilizando ferramentas de Data Science como CPython e OpenStreetMaps.
 
 # Disposição dos dados
 O trace está contido em um arquivo ".csv", onde cada linha representa um ponto do GPS contendo as seguintes informações: ID do veículo, data e hora, longitude, latitude e um inteiro definindo se aquele ponto está ou não calibrado.
@@ -48,6 +48,8 @@ O horário pode ser trocado desde esteja no mesmo formato. Ex: 3hTo4h; 17hTo18h 
 # Desenvolvimento do algoritmo de detecção de paradas
 
 O algoritmo seguinte, proposto em [8], foi desenvolvido tendo como base a movimentação de pessoas. Para sua utilização com nossa base de dados de veículos, são necessárias adaptações.
+
+### Staypoint detection algorithm [8]
 ```java
 Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> limite de tempo)
            
@@ -80,6 +82,37 @@ Esse algoritmo não tem uma boa detecção de viagens em veículos, como pode se
 ![Alt text](/img/trackmap_id_329_old.png?raw=true "Mapa do ID 329 v1")
 
 O principal problema detectado é a grande fragmentação gerada ao se utilizar duas variáveis auxiliares i e j, que definem quais sequências de pontos consecutivos devem ser definidos como momentos de paradas. Essa técnica é funcional para detectar pontos de parada de um pedestre que possivelmente entrou em um edifício e se deslocou dentro dele por um tempo, porém ao se analisar veículos em rodovias, o mesmo é ineficiente. Deste modo, um novo algoritmo precisou ser desenvolvido, em que apenas uma variável auxiliar fosse utilizadas e a análise fosse feita não em um conjunto de pontos, mas de forma singular.
+
+### Algoritmo de detecção de paradas
+O algoritmo a seguir analisa os intervalos entre cada 2 pontos de GPS de forma singular. Isso impede a fragmentação das trajetórias preditas, e gera resultados mais convincentes de possíveis viagens feitas por um veículo.
+
+```java
+Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> limite de tempo)
+           
+     i = 0 //variavel de controle
+     numeroDePontos = |P|
+     
+     ENQUANTO i < numeroDePontos-1:
+  
+           dist = Distancia(Pi, P+1) //dist recebe o valor da distancia entre os pontos i e i+1
+               
+           IF dist > limitDist:
+                    tempo = Pi+1.tempo - Pi.Tempo //tempo recebe a diferença de tempo entre dois pontos
+                    
+                    IF tempo > limitTemp:
+                         SP.append(i) //Adiciona i na lista de paradas
+     return SP
+     
+Saida: (SP -> lista com os pontos de parada)             
+```
+
+Os limites definidos para o algoritmo foram definidos tendo como base principal o limite superior e terceiro quartil dos dados de tempo e distâncias. A ideia é estabelecer um limite máximo de tempo em que o carro pode ficar parado sem que seja considerada uma nova viagem, bem como uma distância mínima que o carro deve percorrer entre dois pontos. Os valores de referência podem ser observados nos gráficos abaixo.
+
+### Boxplot das distâncias
+![Alt text](/img/Boxplots_distancias/boxplot_distancia_geral.png?raw=true "Boxplot distancias")
+
+### Boxplot dos tempos
+![Alt text](/img/Boxplots_tempo/boxplot_tempo_geral.png?raw=true "Boxplot distancias")
 
 # Referências Bibliográficas
 
