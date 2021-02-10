@@ -94,10 +94,10 @@ Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> l
      
      ENQUANTO i < numeroDePontos-1:
   
-           dist = Distancia(Pi, Pi+1) //dist recebe o valor da distancia entre os pontos i e i+1
+           dist = Distancia(Pᴵ, Pᴵ⁺¹) //dist recebe o valor da distancia entre os pontos i e i+1
                
            IF dist > limitDist:
-                    tempo = Pi+1.tempo - Pi.Tempo //tempo recebe a diferença de tempo entre dois pontos
+                    tempo = Pᴵ⁺¹.tempo - Pᴵ.Tempo //tempo recebe a diferença de tempo entre dois pontos
                     
                     IF tempo > limitTemp:
                          SP.append(i) //Adiciona i na lista de paradas
