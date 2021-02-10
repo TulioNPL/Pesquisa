@@ -37,17 +37,19 @@ O mapa de calor do horário de 12h às 13h exibe o fluxo intenso de veículos co
 ### • Mapa de calor das 12h às 13h na cidade de Roma
 ![Alt text](/img/map_12hTo13h.png?raw=true "Mapa de calor - Roma - 12h-13h")
 
-Para plotar outros mapas basta digitar no terminal na pasta do trabalho:
+*Para plotar outros mapas basta digitar no terminal na pasta do trabalho:
 
 ```
 $ python3 -c "from mapaPorHora import *; osmPlot()" 12hTo13h
 ```
 
-O horário pode ser trocado desde esteja no mesmo formato. Ex: 3hTo4h; 17hTo18h (Intervalos de 1h)
+*O horário pode ser trocado desde esteja no mesmo formato. Ex: 3hTo4h; 17hTo18h (Intervalos de 1h)
 
 # Desenvolvimento do algoritmo de detecção de paradas
 
-O algoritmo seguinte, proposto em [8], foi desenvolvido tendo como base a movimentação de pessoas. Para sua utilização com nossa base de dados de veículos, são necessárias adaptações.
+O algoritmo seguinte, proposto em [8], foi desenvolvido tendo como base a movimentação de pessoas. Nele, a proposta principal é reconhecer os momentos que o indivíduo circula em determinada área durante um limite máximo de tempo. Caso a movimentação se enquadre nos limites propostos, esse intervalo pode ser considerado um ponto de parada. 
+
+Para sua utilização com nossa base de dados de veículos, foram necessárias algumas adaptações. A principal é o resultado retornado pela função, que ao invés de retornar uma lista contendo um ponto com coordenada e horário de chegada e saída, retorna o intervalo entre dois pontos considerados fim e início de outra viagem. Com essa lista, é possível pegar todos os pontos de determinado veículo e dividí-lo nos intervalos retornados pela função, construindo suas trajetórias.
 
 ### Staypoint detection algorithm [8]
 ```java
