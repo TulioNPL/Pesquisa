@@ -84,7 +84,7 @@ Esse algoritmo não tem uma boa detecção de viagens em veículos, como pode se
 O principal problema detectado é a grande fragmentação gerada ao se utilizar duas variáveis auxiliares i e j, que definem quais sequências de pontos consecutivos devem ser definidos como momentos de paradas. Essa técnica é funcional para detectar pontos de parada de um pedestre que possivelmente entrou em um edifício e se deslocou dentro dele por um tempo, porém ao se analisar veículos em rodovias, o mesmo é ineficiente. Deste modo, um novo algoritmo precisou ser desenvolvido, em que apenas uma variável auxiliar fosse utilizadas e a análise fosse feita não em um conjunto de pontos, mas de forma singular.
 
 ### Algoritmo de detecção de paradas
-O algoritmo a seguir analisa os intervalos entre cada 2 pontos de GPS de forma singular. Isso impede a fragmentação das trajetórias preditas, e gera resultados mais convincentes de possíveis viagens feitas por um veículo.
+O algoritmo a seguir analisa os intervalos entre cada 2 pontos de GPS de forma singular. Isso impede a fragmentação das trajetórias preditas, e gera resultados mais convincentes das possíveis viagens feitas por um veículo.
 
 ```java
 Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> limite de tempo)
@@ -94,7 +94,7 @@ Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> l
      
      ENQUANTO i < numeroDePontos-1:
   
-           dist = Distancia(Pi, P+1) //dist recebe o valor da distancia entre os pontos i e i+1
+           dist = Distancia(Pi, Pi+1) //dist recebe o valor da distancia entre os pontos i e i+1
                
            IF dist > limitDist:
                     tempo = Pi+1.tempo - Pi.Tempo //tempo recebe a diferença de tempo entre dois pontos
@@ -106,7 +106,7 @@ Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> l
 Saida: (SP -> lista com os pontos de parada)             
 ```
 
-Os limites definidos para o algoritmo foram definidos tendo como base principal o limite superior e terceiro quartil dos dados de tempo e distâncias. A ideia é estabelecer um limite máximo de tempo em que o carro pode ficar parado sem que seja considerada uma nova viagem, bem como uma distância mínima que o carro deve percorrer entre dois pontos. Os valores de referência podem ser observados nos gráficos abaixo.
+Os limites definidos para o algoritmo foram escolhidos tendo como base principal o limite superior e terceiro quartil dos dados de tempo e distâncias. A ideia é estabelecer um limite máximo de tempo em que o carro pode ficar parado sem que seja considerada uma nova viagem, bem como uma distância mínima que o carro deve percorrer entre dois pontos. Os valores de referência podem ser observados nos gráficos abaixo.
 
 ### Boxplot das distâncias
 ![Alt text](/img/Boxplots_distancias/boxplot_distancia_geral.png?raw=true "Boxplot distancias")
