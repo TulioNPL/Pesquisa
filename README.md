@@ -108,13 +108,15 @@ Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> l
 Saida: (SP -> lista com os pontos de parada)             
 ```
 
-Os limites definidos para o algoritmo foram escolhidos tendo como base principal o limite superior e terceiro quartil dos dados de tempo e distâncias. A ideia é estabelecer um limite máximo de tempo em que o carro pode ficar parado sem que seja considerada uma nova viagem, bem como uma distância mínima que o carro deve percorrer entre dois pontos. Os valores de referência podem ser observados nos gráficos abaixo.
-
+Os limites definidos para o algoritmo foram escolhidos tendo como base principal valores próximos ao limite superior dos dados de tempo e distâncias. A ideia é estabelecer um limite máximo de tempo em que o carro pode ficar parado sem que seja considerada uma nova viagem, bem como uma distância mínima que o carro deve percorrer entre dois pontos. Os valores de referência podem ser observados nos gráficos abaixo.
 ### Boxplot das distâncias
 ![Alt text](/img/Boxplots_distancias/boxplot_distancia_geral.png?raw=true "Boxplot distancias")
 
 ### Boxplot dos tempos
 ![Alt text](/img/Boxplots_tempo/boxplot_tempo_geral.png?raw=true "Boxplot distancias")
+
+Para dar ao algoritmo uma margem de segurança, evitando que viagens fossem separadas, os valores selecionados estão um pouco acima dos limites exibidos nos boxplots anteriores. Abaixo pode ser observado o resultado da nova versão, onde há uma fragmentação muito menor e maior continuidade das trajetórias.
+
 
 # Criação da matriz O/D
 
