@@ -66,7 +66,7 @@ def boxplotDistancia():
     ax1.text(xlabel, pc75,'3˚ quartil = {:6.3g}'.format(pc75), va='center')
     ax1.text(xlabel, capbottom,'Limite Inferior = {:6.3g}'.format(capbottom), va='center')
     ax1.text(xlabel, captop,'Limite Superior = {:6.3g}'.format(captop), va='center')
-    plt.savefig('./img/Boxplots_distancias/boxplot_distancia_geral.png',dpi=400)
+    plt.savefig('/Users/tuliopolido/Repos/Pesquisa/img/Boxplots_distancias/boxplot_distancia_geral.png',dpi=400)
     plt.show()
 
 def boxplotTempo():
@@ -112,7 +112,7 @@ def boxplotTempo():
     ax1.text(xlabel, pc75,'3˚ quartil = {:6.3g}'.format(pc75), va='center')
     ax1.text(xlabel, capbottom,'Limite inferior = {:6.3g}'.format(capbottom), va='center')
     ax1.text(xlabel, captop,'Limite Superior = {:6.3g}'.format(captop), va='center')
-    plt.savefig('./img/Boxplots_tempo/boxplot_tempo_geral.png',dpi=400)
+    plt.savefig('/Users/tuliopolido/Repos/Pesquisa/img/Boxplots_tempo/boxplot_tempo_geral.png',dpi=400)
     plt.show()
 
 def tempoDoisPontos(i,j,pontos):
@@ -165,7 +165,7 @@ def histTempo():
     plt.yscale('log')
     plt.xlabel('Tempo em segundos')
     plt.ylabel('Quantidade')
-    plt.savefig('./img/histTempo.png',dpi=400)
+    plt.savefig('/Users/tuliopolido/Repos/Pesquisa/img/histTempo.png',dpi=400)
     plt.show()
 
 def histDistancia():
@@ -176,7 +176,7 @@ def histDistancia():
     plt.yscale('log')
     plt.xlabel('Distância em metros')
     plt.ylabel('Quantidade')
-    plt.savefig('./img/histDistancia.png',dpi=400)
+    plt.savefig('/Users/tuliopolido/Repos/Pesquisa/img/histDistancia.png',dpi=400)
     plt.show()
 
 def printaCorridas():
@@ -186,13 +186,13 @@ def printaCorridas():
 
     while veic != 0:
         if strveic in keys:
-            df = pd.read_csv("./data/roma_calibrated_sorted.csv")
+            df = pd.read_csv("/Users/tuliopolido/Repos/Pesquisa/data/roma_calibrated_sorted.csv")
             df = df.loc[df['id'] == veic]
 
             BBox = BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
 
-            if os.path.exists('./img/backmaps/trackmap_id_'+ str(veic) +'.png'):
-                ruh_m = plt.imread('./img/backmaps/trackmap_id_'+ str(veic) +'.png')
+            if os.path.exists('/Users/tuliopolido/Repos/Pesquisa/img/backmaps/trackmap_id_'+ str(veic) +'.png'):
+                ruh_m = plt.imread('/Users/tuliopolido/Repos/Pesquisa/img/backmaps/trackmap_id_'+ str(veic) +'.png')
                 fig, ax = plt.subplots()
 
                 cor = 0
@@ -206,7 +206,7 @@ def printaCorridas():
 
                     ax.scatter(longitudes, latitudes, zorder=0.3, alpha=0.3, c=listaCores[cor], s=2)
                     cor +=1 
-                    if cor > 3:
+                    if cor > 2:
                         cor = 0
                         
                 ax.set_xlim(BBox[0],BBox[1])
@@ -214,7 +214,7 @@ def printaCorridas():
                 ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
                 ax.tick_params(labelsize=8)
                 plt.tight_layout(pad=0) 
-                plt.savefig("./img/trackmap_id_"+str(veic)+".png", dpi=400)
+                plt.savefig("/Users/tuliopolido/Repos/Pesquisa/img/trackmap_id_"+str(veic)+".png", dpi=400)
                 plt.close()          
 
             #Se a imagem de fundo existir, iterar entre os pontos da lista de paradas e printar todas coordenadas entre i e i+1
@@ -223,7 +223,7 @@ def printaCorridas():
             else:
                 print('Por favor crie o backmap com as seguintes coordenadas: ')
                 print(BBox)
-                print('Depois salve o arquivo no path: ' + './img/backmaps/trackmap_id_'+ str(veic) +'.png')
+                print('Depois salve o arquivo no path: ' + '/Users/tuliopolido/Repos/Pesquisa/img/backmaps/trackmap_id_'+ str(veic) +'.png')
         else:
             print("O ID nao existe")
 
@@ -256,7 +256,7 @@ def stayPoint_Detection():
 def lerDados():
     """Função para ler a base de dados e calcular as variações de tempo e distâncias"""
 
-    with open('./data/roma_calibrated_sorted.csv') as file:
+    with open('/Users/tuliopolido/Repos/Pesquisa/data/roma_calibrated_sorted.csv') as file:
     #with open('./sortById/roma_12hTo13h_sorted_by_id.csv') as file:
         reader = csv.DictReader(file)
 
