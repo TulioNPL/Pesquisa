@@ -117,6 +117,7 @@ Os limites definidos para o algoritmo foram escolhidos tendo como base principal
 
 Para dar ao algoritmo uma margem de segurança, evitando que viagens fossem separadas, os valores selecionados estão um pouco acima dos limites exibidos nos boxplots anteriores. Abaixo pode ser observado o resultado da nova versão, onde há uma fragmentação muito menor e maior continuidade das trajetórias.
 
+![Alt text](/img/trackmap_id_329.png?raw=true "Mapa do ID 329 v2")
 
 # Criação da matriz O/D
 
