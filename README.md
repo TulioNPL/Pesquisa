@@ -1,6 +1,11 @@
 ### • Proximos passos
--> Documentação da pesquisa até o momento
+Documentação da pesquisa até o momento:
 
+-> Boxplot para CDF(explicar os dados utilizados)
+
+-> Explicar o uso das cores
+
+-> Explorar os tamanhos das viagens
 ____________________________________________________________
 # Pesquisa
 Trabalho de pesquisa da área de Redes Veiculares.
