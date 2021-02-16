@@ -23,8 +23,35 @@ keys = [] #lista dos ids
 limitDist = 21
 limitTempo = timedelta(seconds=10)
 
+def cdfTempo():
+    """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
+    # getting data of the histogram 
+    
+    timeGapsDiscrete = list(map(int, allTimeGaps))
+    
+    plt.hist(timeGapsDiscrete, bins=10000,density=True,cumulative=True,range=(0,50))
+    plt.title('CDF: Tempo entre pontos')
+    plt.xlabel('Tempo em segundos')
+    plt.ylabel('Probabilidade cumulativa')
+    plt.savefig('/Users/tuliopolido/Repos/Pesquisa/img/cdfTempo.png',dpi=400)
+    plt.show()
+
+def cdfDistancia():
+    """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
+    # getting data of the histogram 
+    
+    coordGapsDiscrete = list(map(int, allCoordGaps))
+    
+    plt.hist(coordGapsDiscrete, bins=10000,density=True,cumulative=True,range=(0,100))
+    plt.title('CDF: Distancia entre pontos')
+    plt.xlabel('Distância em metros')
+    plt.ylabel('Probabilidade cumulativa')
+    plt.savefig('/Users/tuliopolido/Repos/Pesquisa/img/cdfDistancia.png',dpi=400)
+    plt.show()
+
+
 def boxplotDistancia():
-    """Função que plota os boxplots de todos veículos"""
+    """Função que plota os boxplots com os dados de distancia entre pontos de todos veículos"""
 
     fig1, ax1 = plt.subplots()
     ax1.set_title('Boxplot de Distância de Todos veículos')
@@ -70,7 +97,7 @@ def boxplotDistancia():
     plt.show()
 
 def boxplotTempo():
-    """Função que plota os boxplots de todos veículos"""
+    """Função que plota os boxplots com os dados de tempo entre pontos de todos veículos"""
 
     fig1, ax1 = plt.subplots()
     ax1.set_title('Boxplot de Tempo de Todos veículos')
@@ -164,7 +191,7 @@ def histTempo():
     plt.title('Histograma: Tempo entre pontos')
     plt.yscale('log')
     plt.xlabel('Tempo em segundos')
-    plt.ylabel('Quantidade')
+    plt.ylabel('Quantidade em log')
     plt.savefig('/Users/tuliopolido/Repos/Pesquisa/img/histTempo.png',dpi=400)
     plt.show()
 
@@ -175,7 +202,7 @@ def histDistancia():
     plt.title('Histograma: Distancia entre pontos')
     plt.yscale('log')
     plt.xlabel('Distância em metros')
-    plt.ylabel('Quantidade')
+    plt.ylabel('Quantidade em log')
     plt.savefig('/Users/tuliopolido/Repos/Pesquisa/img/histDistancia.png',dpi=400)
     plt.show()
 
@@ -315,7 +342,15 @@ def lerDados():
 
 #Driver
 lerDados()
-print("\nMenu:\n (0)Sair\n (1)Gerar Histograma de Tempo\n (2)Gerar Histograma de Distância\n (3)Gerar lista de paradas\n (4)Gerar boxplot de tempo\n (5)Gerar boxplot de distância")
+print("\nMenu:\n \
+    (0)Sair\n \
+    (1)Gerar Histograma de Tempo\n \
+    (2)Gerar Histograma de Distância\n \
+    (3)Gerar lista de paradas\n \
+    (4)Gerar boxplot de tempo\n \
+    (5)Gerar boxplot de distância\n \
+    (6)Gerar CDF de distância\n \
+    (7)Gerar CDF de tempo")
 resp = int(input("Digite sua opção: "))
 
 while(resp != 0):
@@ -329,5 +364,17 @@ while(resp != 0):
         boxplotTempo()
     elif resp == 5:
         boxplotDistancia()
-    print("\nMenu:\n (0)Sair\n (1)Gerar Histograma de Tempo\n (2)Gerar Histograma de Distância\n (3)Gerar lista de paradas\n (4)Gerar boxplot de tempo\n (5)Gerar boxplot de distância")
+    elif resp == 6:
+        cdfDistancia()
+    elif resp == 7:
+        cdfTempo()
+    print("\nMenu:\n \
+    (0)Sair\n \
+    (1)Gerar Histograma de Tempo\n \
+    (2)Gerar Histograma de Distância\n \
+    (3)Gerar lista de paradas\n \
+    (4)Gerar boxplot de tempo\n \
+    (5)Gerar boxplot de distância\n \
+    (6)Gerar CDF de distância\n \
+    (7)Gerar CDF de tempo")
     resp = int(input())
