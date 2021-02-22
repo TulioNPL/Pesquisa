@@ -1,6 +1,6 @@
 ### • Proximos passos
 Documentação da pesquisa até o momento:
-.
+
 -> Boxplot para CDF(explicar os dados utilizados)
 
 -> Explicar o uso das cores
