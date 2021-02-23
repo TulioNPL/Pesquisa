@@ -4,6 +4,7 @@
 from datetime import datetime
 from datetime import timedelta
 from ponto import Ponto
+from scipy.stats import norm
 import csv
 import math
 import matplotlib.pyplot as plt
@@ -33,13 +34,33 @@ limitTempo = timedelta(seconds=10)
 def cdfTempo():
     """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
     # getting data of the histogram 
-    
     timeGapsDiscrete = list(map(int, allTimeGaps))
+
+    sigma = np.std(timeGapsDiscrete)
+    n_bins = 10000
+    mu = sum(timeGapsDiscrete)/len(timeGapsDiscrete)
+    print(sigma)
+    print(mu)
+
+    fig, ax = plt.subplots(figsize=(8, 4))
     
-    plt.hist(timeGapsDiscrete, bins=10000,density=True,cumulative=True,range=(0,50))
-    plt.title('CDF: Tempo entre pontos')
-    plt.xlabel('Tempo em segundos')
-    plt.ylabel('Probabilidade cumulativa')
+    #n, bins, patches = ax.hist(timeGapsDiscrete, bins=n_bins,density=True,cumulative=True,range=(0,50))
+    #plt.title('CDF: Tempo entre pontos')
+    #plt.xlabel('Tempo em segundos')
+    #plt.ylabel('Probabilidade cumulativa')
+    _,bins,_ = ax.hist(timeGapsDiscrete, n_bins, density=True, histtype='step',cumulative=True, label='Empirical',range=(0,50))
+
+    y = norm.pdf(bins, mu, sigma).cumsum()
+    y /= y[-1]
+
+    ax.plot(bins, y, 'k--', linewidth=1.5, label='Theoretical')
+
+    ax.grid(True)
+    ax.legend(loc='right')
+    ax.set_title('Cumulative step histograms')
+    ax.set_xlabel('Annual rainfall (mm)')
+    ax.set_ylabel('Likelihood of occurrence')
+
     plt.savefig(path+'/img/cdfTempo.png',dpi=400)
     plt.show()
 
