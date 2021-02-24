@@ -26,6 +26,8 @@ coordGaps = {} #dictionary os intervalos de distancias entre os pontos para cada
 separator = {} #dict em que cada chave contera uma lista com os indices onde as separações devem ser feitas
 allTimeGaps = [] #lista com todos intervalos de tempo entre os pontos
 allCoordGaps = [] #lista com todos intervalos de distancia entre os pontos
+coordGapsDiscrete = []
+timeGapsDiscrete = []
 travels = [] #lista de viagens
 keys = [] #lista dos ids
 limitDist = 21
@@ -225,9 +227,11 @@ def printaCorridas():
         if strveic in keys:
             df = pd.read_csv(path+"/data/roma_calibrated_sorted.csv")
             df = df.loc[df['id'] == veic]
-
+            
+            #Pegar Max e Min das coordenadas geograficas
             BBox = BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
 
+            #Se a imagem de fundo existir, iterar entre os pontos da lista de paradas e printar todas coordenadas entre i e i+1
             if os.path.exists(path+'/img/backmaps/trackmap_id_'+ str(veic) +'.png'):
                 ruh_m = plt.imread(path+'/img/backmaps/trackmap_id_'+ str(veic) +'.png')
                 fig, ax = plt.subplots()
@@ -252,10 +256,8 @@ def printaCorridas():
                 ax.tick_params(labelsize=8)
                 plt.tight_layout(pad=0) 
                 plt.savefig(path+"/img/trackmap_id_"+str(veic)+".png", dpi=400)
-                plt.close()          
-
-            #Se a imagem de fundo existir, iterar entre os pontos da lista de paradas e printar todas coordenadas entre i e i+1
-            #Pegar Max e Min das coordenadas geograficas
+                plt.close()           
+        
             #Se a imagem nao existir printar os Max e Min das coordenadas e pedir ao usuario para criar a imagem
             else:
                 print('Por favor crie o backmap com as seguintes coordenadas: ')
@@ -290,9 +292,13 @@ def stayPoint_Detection():
     print('Pronto!')
     printaCorridas()
 
-def lerDados():
-    """Função para ler a base de dados e calcular as variações de tempo e distâncias"""
+def atualizarDados():
+    """Função para ler a base de dados original e calcular as variações de tempo e distâncias"""
 
+    teste = keys.copy()
+    keys.clear()
+    allCoordGaps.clear()
+    allTimeGaps.clear()
     with open(path+'/data/roma_calibrated_sorted.csv') as file:
         reader = csv.DictReader(file)
     
@@ -347,10 +353,77 @@ def lerDados():
 
                 coordGaps[key].append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
                 allCoordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
-        print('Pronto!')
+
+    print('Salvando dados...')
+    with open(path+'/data/timeGaps.txt', 'w') as file:
+        file.seek(0)
+        for line in allTimeGaps:
+            file.write('%f\n' % line) 
+        file.truncate()
+
+    with open(path+'/data/coordGaps.txt', 'w') as file:
+        file.seek(0)
+        for line in allCoordGaps:
+            file.write('%.16f\n' % line)   
+        file.truncate()   
+
+    with open(path+'/data/keys.txt', 'w') as file:
+        file.seek(0)
+        for line in keys:
+            file.write('%s\n' % line)   
+        file.truncate()  
+    print('Pronto!')
+
+def lerDados():
+    """Função para ler a base de dados com os valores ja calculados"""
+
+    print('Lendo dados...')
+    with open(path+'/data/timeGaps.txt', 'r') as file:
+        allTimeGaps = list(map(float, file.readlines())).copy()
+    with open(path+'/data/coordGaps.txt', 'r') as file:
+        allCoordGaps = list(map(float, file.readlines())).copy()
+    with open(path+'/data/keys.txt', 'r') as file:
+        keys = list(map(str, file.readlines())).copy()
+        keys = list(map(str.strip,keys)).copy()
+
+    timeGapsDiscrete = list(map(int,allTimeGaps)).copy()
+    coordGapsDiscrete = list(map(int, allCoordGaps)).copy()
+    print('Pronto!')
+
+    return allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys
 
 #Driver
-lerDados()
+allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys = lerDados()
+
+#######################PROVISORIO
+with open(path+'/data/roma_calibrated_sorted.csv') as file:
+    reader = csv.DictReader(file)
+
+    line = reader.__next__() #le a primeira linha
+    tag = line["id"]
+
+    pontos[tag] = [] #cria uma lista onde serao adicionados os pontos de cada id
+    print('Lendo banco de dados...')
+
+    #Ciclo que percorre todas as linhas, le os pontos e os salva nos respectivos ids no Dictionary
+    for line in reader:
+        if tag != line['id']: #Quando a tag for modificada, cria uma nova key
+            tag = line['id']
+            pontos[tag] = []
+
+        coord = (float(line['lat_y']),float(line['long_x']))
+        hour = line['time']
+
+        #Cria uma nova instancia de Ponto
+        pnt = {}
+        pnt['Hora'] = hour
+        pnt['Coord'] = coord
+        newInstance = Ponto(pnt)
+        
+        pontos[tag].append(newInstance)
+    print('Pronto!')
+##############################
+
 print("\nMenu:\n \
     (0)Sair\n \
     (1)Gerar Histograma de Tempo\n \
@@ -359,8 +432,10 @@ print("\nMenu:\n \
     (4)Gerar boxplot de tempo\n \
     (5)Gerar boxplot de distância\n \
     (6)Gerar CDF de distância\n \
-    (7)Gerar CDF de tempo")
+    (7)Gerar CDF de tempo\n \
+    (8)Atualizar dados")
 resp = int(input("Digite sua opção: "))
+print()
 
 while(resp != 0):
     if resp == 1:
@@ -377,6 +452,9 @@ while(resp != 0):
         cdfDistancia()
     elif resp == 7:
         cdfTempo()
+    elif resp == 8:
+        atualizarDados()
+
     print("\nMenu:\n \
     (0)Sair\n \
     (1)Gerar Histograma de Tempo\n \
@@ -385,5 +463,7 @@ while(resp != 0):
     (4)Gerar boxplot de tempo\n \
     (5)Gerar boxplot de distância\n \
     (6)Gerar CDF de distância\n \
-    (7)Gerar CDF de tempo")
-    resp = int(input())
+    (7)Gerar CDF de tempo\n \
+    (8)Atualizar dados")
+    resp = int(input("Digite sua opção: "))
+    print()
