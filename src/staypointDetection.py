@@ -390,40 +390,57 @@ def lerDados():
     coordGapsDiscrete = list(map(int, allCoordGaps)).copy()
     print('Pronto!')
 
+    #######################PROVISORIO
+    with open(path+'/data/roma_calibrated_sorted.csv') as file:
+        reader = csv.DictReader(file)
+
+        line = reader.__next__() #le a primeira linha
+        tag = line["id"]
+
+        pontos[tag] = [] #cria uma lista onde serao adicionados os pontos de cada id
+        print('Atualizando lista de IDs...')
+
+        #Ciclo que percorre todas as linhas, le os pontos e os salva nos respectivos ids no Dictionary
+        for line in reader:
+            if tag != line['id']: #Quando a tag for modificada, cria uma nova key
+                tag = line['id']
+                pontos[tag] = []
+
+            coord = (float(line['lat_y']),float(line['long_x']))
+            hour = line['time']
+
+            #Cria uma nova instancia de Ponto
+            pnt = {}
+            pnt['Hora'] = hour
+            pnt['Coord'] = coord
+            newInstance = Ponto(pnt)
+            
+            pontos[tag].append(newInstance)
+
+        with open(path+'/data/hora.txt', 'w') as file:
+            file.seek(0)
+            for key in keys:
+                for line in pontos[key]:
+                    file.write('%s\n' % line.pointData['Hora']) 
+                print()
+            file.truncate()
+
+        with open(path+'/data/hora.txt', 'r') as file:
+            pts = list(map(str,file.readlines())).copy()
+            pts = list(map(str.strip,pts)).copy()
+
+        print(pts)
+        
+        print('Pronto!')
+    ##############################
+
     return allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys
 
 #Driver
 allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys = lerDados()
 
-#######################PROVISORIO
-with open(path+'/data/roma_calibrated_sorted.csv') as file:
-    reader = csv.DictReader(file)
 
-    line = reader.__next__() #le a primeira linha
-    tag = line["id"]
-
-    pontos[tag] = [] #cria uma lista onde serao adicionados os pontos de cada id
-    print('Lendo banco de dados...')
-
-    #Ciclo que percorre todas as linhas, le os pontos e os salva nos respectivos ids no Dictionary
-    for line in reader:
-        if tag != line['id']: #Quando a tag for modificada, cria uma nova key
-            tag = line['id']
-            pontos[tag] = []
-
-        coord = (float(line['lat_y']),float(line['long_x']))
-        hour = line['time']
-
-        #Cria uma nova instancia de Ponto
-        pnt = {}
-        pnt['Hora'] = hour
-        pnt['Coord'] = coord
-        newInstance = Ponto(pnt)
-        
-        pontos[tag].append(newInstance)
-    print('Pronto!')
-##############################
-
+'''
 print("\nMenu:\n \
     (0)Sair\n \
     (1)Gerar Histograma de Tempo\n \
@@ -466,4 +483,4 @@ while(resp != 0):
     (7)Gerar CDF de tempo\n \
     (8)Atualizar dados")
     resp = int(input("Digite sua opção: "))
-    print()
+    print()'''
