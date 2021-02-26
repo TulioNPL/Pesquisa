@@ -1,6 +1,8 @@
 ### • Proximos passos
 Documentação da pesquisa até o momento:
 
+-> Finalizar a persistência de dados
+
 -> Boxplot para CDF(explicar os dados utilizados)
 
 -> Explicar o uso das cores
