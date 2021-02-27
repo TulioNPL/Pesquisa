@@ -440,7 +440,7 @@ def lerDados():
 allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys = lerDados()
 
 
-'''
+
 print("\nMenu:\n \
     (0)Sair\n \
     (1)Gerar Histograma de Tempo\n \
@@ -483,4 +483,4 @@ while(resp != 0):
     (7)Gerar CDF de tempo\n \
     (8)Atualizar dados")
     resp = int(input("Digite sua opção: "))
-    print()'''
+    print()
