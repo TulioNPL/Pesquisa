@@ -44,7 +44,7 @@ def cdfTempo():
     
     plt.hist(timeGapsDiscrete, bins=10000,density=True)
     #plt.hist(timeGapsDiscrete, bins=10000,density=True,cumulative=True,label="CDF",histtype="step")
-
+    plt.plot(timeGapsDiscrete[20])
     plt.savefig(path+'/img/cdfTempo.png',dpi=400)
     plt.show()
 
@@ -58,7 +58,7 @@ def cdfDistancia():
     #plt.yscale('log')
     plt.xlabel('Distância em metros')
     plt.ylabel('Quantidade em log')
-    plt.savefig(path+'/img/histDistancia.png',dpi=400)
+    plt.savefig(path+'/img/cdfDistancia.png',dpi=400)
     plt.show()
 
 
@@ -428,8 +428,8 @@ def lerDados():
         with open(path+'/data/hora.txt', 'r') as file:
             pts = list(map(str,file.readlines())).copy()
             pts = list(map(str.strip,pts)).copy()
-
-        print(pts)
+        ####### TERMINAR A PERSISTENCIA DE DADOS########
+        #print(pts)
         
         print('Pronto!')
     ##############################
