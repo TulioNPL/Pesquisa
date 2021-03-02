@@ -35,29 +35,19 @@ limitTempo = timedelta(seconds=10)
 
 def cdfTempo():
     """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
-    # getting data of the histogram 
-    timeGapsDiscrete = list(map(int, allTimeGaps))
-
-    sigma = np.std(timeGapsDiscrete)
-    n_bins = 10000
-    mu = sum(timeGapsDiscrete)/len(timeGapsDiscrete)
-    
-    plt.hist(timeGapsDiscrete, bins=10000,density=True)
-    #plt.hist(timeGapsDiscrete, bins=10000,density=True,cumulative=True,label="CDF",histtype="step")
-    plt.plot(timeGapsDiscrete[20])
-    plt.savefig(path+'/img/cdfTempo.png',dpi=400)
-    plt.show()
 
 def cdfDistancia():
     """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
     # getting data of the histogram 
 
-    plt.hist(allCoordGaps, bins=100, density=True,range=(0,100))
+    #plt.hist(allCoordGaps, bins=100, density=True,range=(0,100))
     plt.hist(allCoordGaps, bins=100, density=True,range=(0,100),cumulative=True,histtype="step")
     plt.title('Histograma: Distancia entre pontos')
     #plt.yscale('log')
+    plt.axhline(y=.94,xmin=0,xmax=.225,color='r')
+    plt.axvline(x=20,ymin=0,ymax=.90,color='r')
     plt.xlabel('Distância em metros')
-    plt.ylabel('Quantidade em log')
+    plt.ylabel('Probabilidade Cumulativa')
     plt.savefig(path+'/img/cdfDistancia.png',dpi=400)
     plt.show()
 
@@ -422,7 +412,7 @@ def lerDados():
             for key in keys:
                 for line in pontos[key]:
                     file.write('%s\n' % line.pointData['Hora']) 
-                print()
+                #print()
             file.truncate()
 
         with open(path+'/data/hora.txt', 'r') as file:
@@ -438,8 +428,8 @@ def lerDados():
 
 #Driver
 allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys = lerDados()
-
-
+cdfDistancia()
+'''
 
 print("\nMenu:\n \
     (0)Sair\n \
@@ -483,4 +473,4 @@ while(resp != 0):
     (7)Gerar CDF de tempo\n \
     (8)Atualizar dados")
     resp = int(input("Digite sua opção: "))
-    print()
+    print()'''
