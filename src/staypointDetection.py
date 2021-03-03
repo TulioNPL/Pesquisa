@@ -40,8 +40,39 @@ def cdfDistancia():
     """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
     # getting data of the histogram 
 
+    x = [i for i in coordGapsDiscrete if i <=100]
+
+    sigma = np.std(x)
+    mu = sum(x)/len(x)
+    n_bins = 100
+
+    _,ax = plt.subplots(figsize=(8, 4))
+
+    # Histograma cumulativo
+    _,bins,_ = ax.hist(x, n_bins, density=True, histtype='step', cumulative=True, label='Empírica')
+
+    # Distribuição esperada
+    y = ((1 / (np.sqrt(2 * np.pi) * sigma)) * np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
+    y = y.cumsum()
+    y /= y[-1]
+
+    ax.plot(bins, y, 'r--', linewidth=1.5, label='Teórica')
+
+    # Histograma cumulativo inverso
+    #ax.hist(x, bins=bins, density=True, histtype='step', cumulative=-1,label='Emp. Inversa')
+
+    # Detalhes do gráfico
+    ax.grid(True)
+    ax.legend(loc='right')
+    ax.set_title('Função de Densidade Cumulativa - Distância entre pontos')
+    ax.set_xlabel('Distância em metros')
+    ax.set_ylabel('Probabilidade cumulativa de ocorrência')
+
+    plt.show()
+
+'''
     #plt.hist(allCoordGaps, bins=100, density=True,range=(0,100))
-    plt.hist(allCoordGaps, bins=100, density=True,range=(0,100),cumulative=True,histtype="step")
+    plt.hist(coordGapsDiscrete, bins=100, density=True,range=(0,100),cumulative=True,histtype="step")
     plt.title('Histograma: Distancia entre pontos')
     #plt.yscale('log')
     plt.axhline(y=.94,xmin=0,xmax=.225,color='r')
@@ -49,7 +80,7 @@ def cdfDistancia():
     plt.xlabel('Distância em metros')
     plt.ylabel('Probabilidade Cumulativa')
     plt.savefig(path+'/img/cdfDistancia.png',dpi=400)
-    plt.show()
+    plt.show()'''
 
 
 def boxplotDistancia():
