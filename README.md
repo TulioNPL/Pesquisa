@@ -3,8 +3,6 @@ Documentação da pesquisa até o momento:
 
 -> Finalizar a persistência de dados
 
--> Explicar o uso das cores
-
 -> Explorar os tamanhos das viagens
 ____________________________________________________________
 # Pesquisa
@@ -125,14 +123,15 @@ Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> l
 Saida: (SP -> lista com os pontos de parada)             
 ```
 
-Os limites definidos para o algoritmo foram escolhidos tendo como base principal valores próximos ao limite superior dos dados de tempo e distâncias. A ideia é estabelecer um limite máximo de tempo em que o carro pode ficar parado sem que seja considerada uma nova viagem, bem como uma distância mínima que o carro deve percorrer entre dois pontos. Os valores de referência podem ser observados nos gráficos abaixo.
+Os limites definidos para o algoritmo foram escolhidos tendo como base principal valores cujos dados acumulados somassem mais de 90% do total. A ideia é estabelecer um limite máximo de tempo em que o carro pode ficar parado sem que seja considerada uma nova viagem, bem como uma distância mínima que o carro deve percorrer entre dois pontos. Os valores de referência podem ser observados nos gráficos abaixo.
+
 ### CDF - Distância entre pontos
 ![Alt text](/img/cdfDistancia.png?raw=true "CDF Distâncias")
 
 ### CDF - Tempo entre pontos
 ![Alt text](/img/cdfTempo.png?raw=true "CDF Tempo")
 
-Para dar ao algoritmo uma margem de segurança, evitando que viagens fossem separadas, os valores selecionados estão um pouco acima dos limites exibidos nos boxplots anteriores. Abaixo pode ser observado o resultado da nova versão, onde há uma fragmentação muito menor e maior continuidade das trajetórias.
+Para dar ao algoritmo uma margem de segurança, evitando que viagens fossem separadas, os valores selecionados estão acima do limite de 90% exibido nas funções de densidade cumulativas anteriores. Abaixo pode ser observado o resultado da nova versão, onde há uma fragmentação muito menor e maior continuidade das trajetórias.
 
 ![Alt text](/img/trackmap_id_329.png?raw=true "Mapa do ID 329 v2")
 
