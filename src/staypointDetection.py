@@ -30,18 +30,49 @@ coordGapsDiscrete = []
 timeGapsDiscrete = []
 travels = [] #lista de viagens
 keys = [] #lista dos ids
-limitDist = 21
+limitDist = 25
 limitTempo = timedelta(seconds=10)
 
 def cdfTempo():
     """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
+    x = [i for i in timeGapsDiscrete if i <=100]
+
+    #Definição dos valores da lista
+    sigma = np.std(x)
+    mu = sum(x)/len(x)
+    n_bins = 100
+
+    _,ax = plt.subplots(figsize=(8, 4))
+
+    # Histograma cumulativo
+    _,bins,_ = ax.hist(x, n_bins, density=True, histtype='step', cumulative=True, label='Empírica')
+
+    # Distribuição esperada
+    y = ((1 / (np.sqrt(2 * np.pi) * sigma)) * np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
+    y = y.cumsum()
+    y /= y[-1]
+
+    ax.plot(bins, y, 'r--', linewidth=1.5, label='Teórica')
+
+    # Histograma cumulativo inverso
+    #ax.hist(x, bins=bins, density=True, histtype='step', cumulative=-1,label='Emp. Inversa')
+
+    # Detalhes do gráfico
+    ax.grid(True)
+    ax.legend(loc='right')
+    ax.set_title('Função de Densidade Cumulativa - Tempo entre pontos')
+    ax.set_xlabel('Tempo em segundos')
+    ax.set_ylabel('Probabilidade cumulativa de ocorrência')
+
+    plt.savefig(path+'/img/cdfTempo.png')
+    plt.show()
 
 def cdfDistancia():
     """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
-    # getting data of the histogram 
 
     x = [i for i in coordGapsDiscrete if i <=100]
 
+    #Definição dos valores da lista
     sigma = np.std(x)
     mu = sum(x)/len(x)
     n_bins = 100
@@ -68,20 +99,8 @@ def cdfDistancia():
     ax.set_xlabel('Distância em metros')
     ax.set_ylabel('Probabilidade cumulativa de ocorrência')
 
+    plt.savefig(path+'/img/cdfDistancia.png')
     plt.show()
-
-'''
-    #plt.hist(allCoordGaps, bins=100, density=True,range=(0,100))
-    plt.hist(coordGapsDiscrete, bins=100, density=True,range=(0,100),cumulative=True,histtype="step")
-    plt.title('Histograma: Distancia entre pontos')
-    #plt.yscale('log')
-    plt.axhline(y=.94,xmin=0,xmax=.225,color='r')
-    plt.axvline(x=20,ymin=0,ymax=.90,color='r')
-    plt.xlabel('Distância em metros')
-    plt.ylabel('Probabilidade Cumulativa')
-    plt.savefig(path+'/img/cdfDistancia.png',dpi=400)
-    plt.show()'''
-
 
 def boxplotDistancia():
     """Função que plota os boxplots com os dados de distancia entre pontos de todos veículos"""
@@ -126,7 +145,7 @@ def boxplotDistancia():
     ax1.text(xlabel, pc75,'3˚ quartil = {:6.3g}'.format(pc75), va='center')
     ax1.text(xlabel, capbottom,'Limite Inferior = {:6.3g}'.format(capbottom), va='center')
     ax1.text(xlabel, captop,'Limite Superior = {:6.3g}'.format(captop), va='center')
-    plt.savefig(path+'/img/Boxplots_distancias/boxplot_distancia_geral.png',dpi=400)
+    plt.savefig(path+'/img/Boxplots_distancias/boxplot_distancia_geral.png',figsize=(800,800))
     plt.show()
 
 def boxplotTempo():
@@ -459,8 +478,6 @@ def lerDados():
 
 #Driver
 allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys = lerDados()
-cdfDistancia()
-'''
 
 print("\nMenu:\n \
     (0)Sair\n \
@@ -504,4 +521,4 @@ while(resp != 0):
     (7)Gerar CDF de tempo\n \
     (8)Atualizar dados")
     resp = int(input("Digite sua opção: "))
-    print()'''
+    print()
