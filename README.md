@@ -1,9 +1,9 @@
-### • Proximos passos
+### • Próximos passos
 Documentação da pesquisa até o momento:
 
 -> Finalizar a persistência de dados
 
--> Explorar os tamanhos das viagens
+-> Matriz de origem e destino
 ____________________________________________________________
 # Pesquisa
 Trabalho de pesquisa da área de Redes Veiculares.
