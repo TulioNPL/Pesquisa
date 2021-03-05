@@ -31,6 +31,9 @@ O trace está contido em um arquivo ".csv", onde cada linha representa um ponto 
 ### • 3 - Estudo da base de dados
 ### • 4 - Enriquecimento da base original e comparação dos resultados
 
+# Introdução 
+Desde a popularização de veículos automotores no século XX, diversas cidades, em especial as grandes metrópoles, vêm sofrendo com a crescente demanda por controle de trânsito. No Brasil, a cidade de São Paulo é o ápice desse problema, e, mesmo utilizando rodízios frequentes de veículos, não há mudança significativa, como pode ser visto em [6]. Um possível passo para buscarmos uma solução prática, viável e com bons resultados é analisar como se comporta o trânsito das cidades ao redor do mundo, buscando padrões de movimentação entre os veículos. Buscamos fazer uma análise inicial da forma como o trânsito se comporta na cidade de Roma, utilizando dados de GPS de táxis, e estabelecer um algoritmo para separar os dados brutos de cada veículo em viagens individuais. O presente trabalho de encontra dividido da seguinte forma: na seção 2, os trabalhos relacionados são descritos. Em seguida, na seção 3, é feita uma análise utilizando o trace da cidade de Roma. Na seção 4, são tiradas conclusões com base nos dados obtidos e, por fim, na seção 5 possíveis trabalhos futuros são descritos.
+
 # Análise inicial do trace de Roma
 Pelo gráfico de densidade de veículos podemos inferir que há quatro picos principais de fluxo de veículos na cidade de Roma. Nos intervalos 7h-8h, 11h-12h, 15h-16h e 19h-20h. Esse fato demonstra o funcionamento de uma cidade, onde, normalmente, os cidadãos têm um horário para sair de casa e ir ao trabalho, um horário de almoço e um horário de retorno.
 
@@ -85,7 +88,8 @@ Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> l
 Saida: (SP -> lista com os pontos de parada)             
 ```
 
-Esse algoritmo não tem uma boa detecção de viagens em veículos, como pode ser observado no mapa exibido abaixo: 
+Esse algoritmo não tem uma boa detecção de viagens em veículos, como pode ser observado no mapa exibido abaixo. Nele as rotas do veículo de ID 329 foram traçadas no mapa de Roma, e a cada mudança de trajeto detectada pelo algoritmo a cor da rota é alterada. Foram utilizadas 4 cores diferentes para facilitar a visualização da segmentação de trajetos.
+
 ![Alt text](/img/trackmap_id_329_old.png?raw=true "Mapa do ID 329 v1")
 
 O principal problema detectado é a grande fragmentação gerada ao se utilizar duas variáveis auxiliares i e j, que definem quais sequências de pontos consecutivos devem ser definidos como momentos de paradas. Essa técnica é funcional para detectar pontos de parada de um pedestre que possivelmente entrou em um edifício e se deslocou dentro dele por um tempo, porém ao se analisar veículos em rodovias, o mesmo é ineficiente. Deste modo, um novo algoritmo precisou ser desenvolvido, em que apenas uma variável auxiliar fosse utilizadas e a análise fosse feita não em um conjunto de pontos, mas de forma singular.
@@ -115,10 +119,10 @@ Saida: (SP -> lista com os pontos de parada)
 
 Os limites definidos para o algoritmo foram escolhidos tendo como base principal valores próximos ao limite superior dos dados de tempo e distâncias. A ideia é estabelecer um limite máximo de tempo em que o carro pode ficar parado sem que seja considerada uma nova viagem, bem como uma distância mínima que o carro deve percorrer entre dois pontos. Os valores de referência podem ser observados nos gráficos abaixo.
 ### Boxplot das distâncias
-![Alt text](/img/Boxplots_distancias/boxplot_distancia_geral.png?raw=true "Boxplot distancias")
+![Alt text](/img/boxplot_distancia_geral.png?raw=true "Boxplot distancias")
 
 ### Boxplot dos tempos
-![Alt text](/img/Boxplots_tempo/boxplot_tempo_geral.png?raw=true "Boxplot distancias")
+![Alt text](/img/boxplot_tempo_geral.png?raw=true "Boxplot distancias")
 
 Para dar ao algoritmo uma margem de segurança, evitando que viagens fossem separadas, os valores selecionados estão um pouco acima dos limites exibidos nos boxplots anteriores. Abaixo pode ser observado o resultado da nova versão, onde há uma fragmentação muito menor e maior continuidade das trajetórias.
 
