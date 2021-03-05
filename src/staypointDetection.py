@@ -145,7 +145,7 @@ def boxplotDistancia():
     ax1.text(xlabel, pc75,'3˚ quartil = {:6.3g}'.format(pc75), va='center')
     ax1.text(xlabel, capbottom,'Limite Inferior = {:6.3g}'.format(capbottom), va='center')
     ax1.text(xlabel, captop,'Limite Superior = {:6.3g}'.format(captop), va='center')
-    plt.savefig(path+'/img/Boxplots_distancias/boxplot_distancia_geral.png',figsize=(800,800))
+    plt.savefig(path+'/img/boxplot_distancia_geral.png',dpi=100)
     plt.show()
 
 def boxplotTempo():
@@ -191,7 +191,7 @@ def boxplotTempo():
     ax1.text(xlabel, pc75,'3˚ quartil = {:6.3g}'.format(pc75), va='center')
     ax1.text(xlabel, capbottom,'Limite inferior = {:6.3g}'.format(capbottom), va='center')
     ax1.text(xlabel, captop,'Limite Superior = {:6.3g}'.format(captop), va='center')
-    plt.savefig(path+'/img/Boxplots_tempo/boxplot_tempo_geral.png',dpi=400)
+    plt.savefig(path+'/img/boxplot_tempo_geral.png',dpi=100)
     plt.show()
 
 def tempoDoisPontos(i,j,pontos):
@@ -244,7 +244,7 @@ def histTempo():
     plt.yscale('log')
     plt.xlabel('Tempo em segundos')
     plt.ylabel('Quantidade em log')
-    plt.savefig(path+'/img/histTempo.png',dpi=400)
+    plt.savefig(path+'/img/histTempo.png',dpi=100)
     plt.show()
 
 def histDistancia():
@@ -255,7 +255,7 @@ def histDistancia():
     plt.yscale('log')
     plt.xlabel('Distância em metros')
     plt.ylabel('Quantidade em log')
-    plt.savefig(path+'/img/histDistancia.png',dpi=400)
+    plt.savefig(path+'/img/histDistancia.png',dpi=100)
     plt.show()
 
 def printaCorridas():
@@ -295,7 +295,7 @@ def printaCorridas():
                 ax.imshow(ruh_m,zorder= 0, extent= BBox, aspect= 'equal')
                 ax.tick_params(labelsize=8)
                 plt.tight_layout(pad=0) 
-                plt.savefig(path+"/img/trackmap_id_"+str(veic)+".png", dpi=400)
+                plt.savefig(path+"/img/trackmap_id_"+str(veic)+".png", dpi=200)
                 plt.close()           
         
             #Se a imagem nao existir printar os Max e Min das coordenadas e pedir ao usuario para criar a imagem
