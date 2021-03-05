@@ -31,20 +31,24 @@ O trace está contido em um arquivo ".csv", onde cada linha representa um ponto 
 ### • 3 - Estudo da base de dados
 ### • 4 - Enriquecimento da base original e comparação dos resultados
 
-# Introdução 
+# Seção I - Introdução 
 Desde a popularização de veículos automotores no século XX, diversas cidades, em especial as grandes metrópoles, vêm sofrendo com a crescente demanda por controle de trânsito. No Brasil, a cidade de São Paulo é o ápice desse problema, e, mesmo utilizando rodízios frequentes de veículos, não há mudança significativa, como pode ser visto em [\[6\]](https://github.com/TulioNPL/Pesquisa/blob/master/README.md#refer%C3%AAncias-bibliogr%C3%A1ficas). Um possível passo para buscarmos uma solução prática, viável e com bons resultados é analisar como se comporta o trânsito das cidades ao redor do mundo, buscando padrões de movimentação entre os veículos. Buscamos fazer uma análise inicial da forma como o trânsito se comporta na cidade de Roma, utilizando dados de GPS de táxis, e estabelecer um algoritmo para separar os dados brutos de cada veículo em viagens individuais. O presente trabalho de encontra dividido da seguinte forma: na seção 2, os trabalhos relacionados são descritos. Em seguida, na seção 3, é feita uma análise utilizando o trace da cidade de Roma. Na seção 4, veremos um forma de seccionar os trajetos feitos pelos veículos durante um período de 24h.
 
-# Trabalhos Relacionados
+# Seção II - Trabalhos Relacionados
 
 Em [\[2\]](https://github.com/TulioNPL/Pesquisa/blob/master/README.md#refer%C3%AAncias-bibliogr%C3%A1ficas) vemos a proposta de um modelo de mobilidade social paraser utilizados em simulações de redes veiculares.  Ele se baseia em esferas sociais, onde cadaproprietário de veículo se conecta a outros proprietários por uma rede familiar, laboral ou deamizades.  [\[5\]](https://github.com/TulioNPL/Pesquisa/blob/master/README.md#refer%C3%AAncias-bibliogr%C3%A1ficas) estuda a mobilidade de ônibus intramunicipais e seu impactona construção de redes veiculares em uma cidade.  Os dados foram calibrados e usados paraconstrução de uma rede basea de em grafos temporais, assim cada grafo contém a interação dosveículos naquele instante de tempo. Em [\[4\]](https://github.com/TulioNPL/Pesquisa/blob/master/README.md#refer%C3%AAncias-bibliogr%C3%A1ficas) também temos a proposta deum modelo de mobilidade social, porém nele temos a preocupação com um simulação micros-cópica, que permite testar diferentes personalidades para os motoristas.  [\[7\]](https://github.com/TulioNPL/Pesquisa/blob/master/README.md#refer%C3%AAncias-bibliogr%C3%A1ficas) estabelece parâmetros e métodos para seccionar dados de GPS de veículos que não estejam di-vididos em viagens. [\[1\]](https://github.com/TulioNPL/Pesquisa/blob/master/README.md#refer%C3%AAncias-bibliogr%C3%A1ficas) propõe um método de simulação de dados de veículos particulares a fim de facilitar a obtenção dedatasetspara estudos futuros. Essa simulação é feita em três passos:Demand description, onde é construída uma matriz de origem e destino(OD) ecorrigida de acordo com a proporção de táxis para veículos particulares;Network description,onde ocorre a preparação do ambiente de simulação utilizando SUMO e OpenStreetMaps;  eSimulation, que é a própria simulação.  No artigo [\[3\]](https://github.com/TulioNPL/Pesquisa/blob/master/README.md#refer%C3%AAncias-bibliogr%C3%A1ficas) dá uma breve introduçãoa o que são asVehicular Social Networks(VSN) comparando-as com redes sociais e com redesad-hoc veiculares(VANET). Também é feito um estudo de caso a fim de descobrir possíveisdesafios em sua construção no mundo real. Por fim [\[8\]](https://github.com/TulioNPL/Pesquisa/blob/master/README.md#refer%C3%AAncias-bibliogr%C3%A1ficas) utiliza mineração de dados de GPS de pessoas, para ligar pessoas com movimentação semelhante. Dele utilizamos o algoritmo de detecção de paradas como referência para nsso próprio algoritmo de detenção de paradas  de veículos.
 
-# Análise inicial do trace de Roma
-Pelo gráfico de densidade de veículos podemos inferir que há quatro picos principais de fluxo de veículos na cidade de Roma. Nos intervalos 7h-8h, 11h-12h, 15h-16h e 19h-20h. Esse fato demonstra o funcionamento de uma cidade, onde, normalmente, os cidadãos têm um horário para sair de casa e ir ao trabalho, um horário de almoço e um horário de retorno.
+# Seção III - Análise inicial do trace de Roma
+Na análise inicial, foi feito um estudo básico para identificar qualquer tipo de indício de padrão de comportamento da mobilidade dos veículos. Foram analisados mapas de calor, que demonstram a quantidade de veículo , além do gráfico de densidade de veículos por hora do dia.
+
+É de conhecimento geral que durante um dia o fluxo de veículos é heterogêneo. O gráfico abaixo demonstra claramente uma concentração bem maior de veículos durante alguns horários específicos do dia. Entre os horários com maior densidade de veículos, destacam-se três picos: O de 07:00 às 08:00, o de 11:00 às 12:00 e o de 19:00 às 20:00.
 
 ### • Gráfico de Densidade de veículos x Hora do dia
 ![Alt text](/img/dens_carros.png?raw=true "Densidade veicular x Hora do dia")
 
-O mapa de calor do horário de 12h às 13h exibe o fluxo intenso de veículos concentrado na região central de Roma, além de um fluxo na direção sudoeste da cidade onde se localizam o aeroporto e porto da região.
+Esses picos coincidem com os horários de uma jornada de trabalho padrão, onde o primeiro pico se daria no momento em que as pessoas da cidade se deslocam ao trabalho ou escola, o segundo ocorreria no momento de intervalo, onde há também uma tendência maior de jovens saindo e chegando nas escolas, e o terceiro seria o movimento de retorno.
+
+Isso é reforçado pelos mapas de calor da cidade, onde pode ser visualizado a diferença de movimento de veículos na cidade.
 
 ### • Mapa de calor das 12h às 13h na cidade de Roma
 ![Alt text](/img/map_12hTo13h.png?raw=true "Mapa de calor - Roma - 12h-13h")
@@ -57,7 +61,7 @@ $ python3 -c "from mapaPorHora import *; osmPlot()" 12hTo13h
 
 *O horário pode ser trocado desde esteja no mesmo formato. Ex: 3hTo4h; 17hTo18h (Intervalos de 1h)
 
-# Desenvolvimento do algoritmo de detecção de paradas
+# Seção IV - Desenvolvimento do algoritmo de detecção de paradas
 
 O algoritmo seguinte, proposto em [\[8\]](https://github.com/TulioNPL/Pesquisa/blob/master/README.md#refer%C3%AAncias-bibliogr%C3%A1ficas), foi desenvolvido tendo como base a movimentação de pessoas. Nele, a proposta principal é reconhecer os momentos que o indivíduo circula em determinada área durante um limite máximo de tempo. Caso a movimentação se enquadre nos limites propostos, esse intervalo pode ser considerado um ponto de parada. 
 
