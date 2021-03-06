@@ -451,21 +451,23 @@ def lerDados():
     coordGapsDiscrete = list(map(int, allCoordGaps)).copy()
     print('Pronto!')
 
-    ###### TERMINAR PERSISTENCIA DE DADOS
-
+    #le arquivo com a lista de sequencia de ids
     with open(path+'/data/ids.txt', 'r') as file:
         ids = list(map(str,file.readlines())).copy()
         ids = list(map(str.strip,ids)).copy()
 
+    #le arquivo com a lista de sequencia de coordenadas
     with open(path+'/data/coordenadas.txt', 'r') as file:
         crds = list(map(str,file.readlines())).copy()
         crds = list(map(str.strip,crds)).copy()
         crds = list(map(eval,crds)).copy()
     
+    #le arquivo com a lista de sequencia de horas
     with open(path+'/data/hora.txt', 'r') as file:
         hrs = list(map(str,file.readlines())).copy()
         hrs = list(map(str.strip,hrs)).copy()
 
+    #inicializa o dict de pontos com uma lista para cada id
     for id in ids:
         pontos[id] = []
     
@@ -478,7 +480,6 @@ def lerDados():
 
     print('Pronto!')
     
-    ################
     return allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys, pontos
 
 #Driver
