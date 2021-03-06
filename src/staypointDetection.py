@@ -346,7 +346,6 @@ def atualizarDados():
         line = reader.__next__() #le a primeira linha
         tag = line["id"]
         keys.append(line["id"])
-
         pontos[tag] = [] #cria uma lista onde serao adicionados os pontos de cada id
         print('Lendo banco de dados...')
 
@@ -453,7 +452,11 @@ def lerDados():
     print('Pronto!')
 
     ###### TERMINAR PERSISTENCIA DE DADOS
-    
+
+    with open(path+'/data/ids.txt', 'r') as file:
+        ids = list(map(str,file.readlines())).copy()
+        ids = list(map(str.strip,ids)).copy()
+
     with open(path+'/data/coordenadas.txt', 'r') as file:
         crds = list(map(str,file.readlines())).copy()
         crds = list(map(str.strip,crds)).copy()
@@ -462,22 +465,25 @@ def lerDados():
     with open(path+'/data/hora.txt', 'r') as file:
         hrs = list(map(str,file.readlines())).copy()
         hrs = list(map(str.strip,hrs)).copy()
+
+    for id in ids:
+        pontos[id] = []
     
     for i in range(0,len(hrs)):
         pnt = {}
         pnt['Hora'] = hrs[i]
         pnt['Coord'] = crds[i]
         newInstance = Ponto(pnt)
-        pontos[tag].append(newInstance)
+        pontos[ids[i]].append(newInstance)
 
-        print('Pronto!')
+    print('Pronto!')
+    
     ################
-    return allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys
+    return allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys, pontos
 
 #Driver
-#allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys = lerDados()
-atualizarDados()
-'''
+allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys, pontos = lerDados()
+
 print("\nMenu:\n \
     (0)Sair\n \
     (1)Gerar Histograma de Tempo\n \
@@ -520,4 +526,4 @@ while(resp != 0):
     (7)Gerar CDF de tempo\n \
     (8)Atualizar dados")
     resp = int(input("Digite sua opção: "))
-    print()'''
+    print()
