@@ -367,8 +367,8 @@ def atualizarDados():
             
             pontos[tag].append(newInstance)
         print('Pronto!')
-        print('Calculando distâncias e tempos...')
 
+        print('Calculando distâncias e tempos...')
         #for que percorre cada key no dict
         for key,value in pontos.items():
             timeGaps[key] = []
@@ -395,6 +395,20 @@ def atualizarDados():
                 allCoordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
 
     print('Salvando dados...')
+    with open(path+'/data/hora.txt', 'w') as file:
+        file.seek(0)
+        for key in keys:
+            for line in pontos[key]:
+                file.write('%s\n' % line.pointData['Hora']) 
+        file.truncate()
+
+    with open(path+'/data/coordenadas.txt', 'w') as file:
+        file.seek(0)
+        for key in keys:
+            for line in pontos[key]:
+                file.write('%s\n' % str(line.pointData['Coord'])) 
+        file.truncate()
+
     with open(path+'/data/timeGaps.txt', 'w') as file:
         file.seek(0)
         for line in allTimeGaps:
@@ -430,55 +444,28 @@ def lerDados():
     coordGapsDiscrete = list(map(int, allCoordGaps)).copy()
     print('Pronto!')
 
-    #######################PROVISORIO
-    with open(path+'/data/roma_calibrated_sorted.csv') as file:
-        reader = csv.DictReader(file)
+    ###### TERMINAR PERSISTENCIA DE DADOS
+    with open(path+'/data/coordenadas.txt', 'r') as file:
+        crds = list(map(str,file.readlines())).copy()
+        print(crds)
+        #crds = list(map(str.strip,crds)).copy()
 
-        line = reader.__next__() #le a primeira linha
-        tag = line["id"]
+    '''with open(path+'/data/hora.txt', 'r') as file:
+        hrs = list(map(str,file.readlines())).copy()
+        hrs = list(map(str.strip,hrs)).copy()
 
-        pontos[tag] = [] #cria uma lista onde serao adicionados os pontos de cada id
-        print('Atualizando lista de IDs...')
+    for i in range(0,len(hrs)):
+        pnt2 = {}git
+        pnt2['Hora'] = hrs[i]
+        pnt2['Coord'] = crds[i]
 
-        #Ciclo que percorre todas as linhas, le os pontos e os salva nos respectivos ids no Dictionary
-        for line in reader:
-            if tag != line['id']: #Quando a tag for modificada, cria uma nova key
-                tag = line['id']
-                pontos[tag] = []
-
-            coord = (float(line['lat_y']),float(line['long_x']))
-            hour = line['time']
-
-            #Cria uma nova instancia de Ponto
-            pnt = {}
-            pnt['Hora'] = hour
-            pnt['Coord'] = coord
-            newInstance = Ponto(pnt)
-            
-            pontos[tag].append(newInstance)
-
-        with open(path+'/data/hora.txt', 'w') as file:
-            file.seek(0)
-            for key in keys:
-                for line in pontos[key]:
-                    file.write('%s\n' % line.pointData['Hora']) 
-                #print()
-            file.truncate()
-
-        with open(path+'/data/hora.txt', 'r') as file:
-            pts = list(map(str,file.readlines())).copy()
-            pts = list(map(str.strip,pts)).copy()
-        ####### TERMINAR A PERSISTENCIA DE DADOS########
-        #print(pts)
-        
-        print('Pronto!')
-    ##############################
-
+        print('Pronto!')'''
+    ################
     return allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys
 
 #Driver
 allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys = lerDados()
-
+'''
 print("\nMenu:\n \
     (0)Sair\n \
     (1)Gerar Histograma de Tempo\n \
@@ -521,4 +508,4 @@ while(resp != 0):
     (7)Gerar CDF de tempo\n \
     (8)Atualizar dados")
     resp = int(input("Digite sua opção: "))
-    print()
+    print()'''
