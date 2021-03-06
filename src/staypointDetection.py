@@ -335,6 +335,7 @@ def stayPoint_Detection():
 def atualizarDados():
     """Função para ler a base de dados original e calcular as variações de tempo e distâncias"""
 
+    tags = []
     teste = keys.copy()
     keys.clear()
     allCoordGaps.clear()
@@ -351,6 +352,7 @@ def atualizarDados():
 
         #Ciclo que percorre todas as linhas, le os pontos e os salva nos respectivos ids no Dictionary
         for line in reader:
+            tags.append(line['id'])
             if tag != line['id']: #Quando a tag for modificada, cria uma nova key
                 tag = line['id']
                 pontos[tag] = []
@@ -395,6 +397,12 @@ def atualizarDados():
                 allCoordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
 
     print('Salvando dados...')
+    with open(path+'/data/ids.txt', 'w') as file:
+        file.seek(0)
+        for tag in tags:
+            file.write('%s\n' % tag) 
+        file.truncate()
+
     with open(path+'/data/hora.txt', 'w') as file:
         file.seek(0)
         for key in keys:
@@ -445,26 +453,30 @@ def lerDados():
     print('Pronto!')
 
     ###### TERMINAR PERSISTENCIA DE DADOS
+    
     with open(path+'/data/coordenadas.txt', 'r') as file:
         crds = list(map(str,file.readlines())).copy()
-        print(crds)
-        #crds = list(map(str.strip,crds)).copy()
-
-    '''with open(path+'/data/hora.txt', 'r') as file:
+        crds = list(map(str.strip,crds)).copy()
+        crds = list(map(eval,crds)).copy()
+    
+    with open(path+'/data/hora.txt', 'r') as file:
         hrs = list(map(str,file.readlines())).copy()
         hrs = list(map(str.strip,hrs)).copy()
-
+    
     for i in range(0,len(hrs)):
-        pnt2 = {}git
-        pnt2['Hora'] = hrs[i]
-        pnt2['Coord'] = crds[i]
+        pnt = {}
+        pnt['Hora'] = hrs[i]
+        pnt['Coord'] = crds[i]
+        newInstance = Ponto(pnt)
+        pontos[tag].append(newInstance)
 
-        print('Pronto!')'''
+        print('Pronto!')
     ################
     return allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys
 
 #Driver
-allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys = lerDados()
+#allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys = lerDados()
+atualizarDados()
 '''
 print("\nMenu:\n \
     (0)Sair\n \
