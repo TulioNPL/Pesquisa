@@ -1,17 +1,38 @@
-#####
-# Converte os dados para dictionary
-#####
-from datetime import datetime
-from datetime import timedelta
-from ponto import Ponto
-from scipy.stats import norm
 import csv
 import math
+import platform
+import os.path
+from datetime import datetime
+from datetime import timedelta
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-import os.path
-import platform
+from scipy.stats import norm
+
+from ponto import Ponto
+
+#  Lista de cores a serem utilizadas no mapa
+listaCores = ['#d1432a','#34f32a','#ff3456']
+#  dictionary com os pontos referentes a cada id
+pontos = {} 
+#  dictionary com os intervalos de tempos entre os pontos para cada id
+timeGaps = {}
+#  dictionary os intervalos de distancias entre os pontos para cada id 
+coordGaps = {} 
+#  dict em que cada chave contera uma lista com os indices onde as separações devem ser feitas
+separator = {} 
+#  lista com todos intervalos de tempo entre os pontos
+allTimeGaps = [] 
+timeGapsDiscrete = []
+#  lista com todos intervalos de distancia entre os pontos
+allCoordGaps = [] 
+coordGapsDiscrete = []
+
+travels = []
+keys = []
+limitDist = 25  
+limitTempo = timedelta(seconds=10)
 
 if platform.system() == 'Linux':
     path = '/home/tulionpl/Repos/Pesquisa'
@@ -19,45 +40,35 @@ else:
     path = '/Users/tuliopolido/Repos/Pesquisa'
 
 
-listaCores = ['#d1432a','#34f32a','#ff3456']
-pontos = {} #dictionary com os pontos referentes a cada id
-timeGaps = {} #dictionary com os intervalos de tempos entre os pontos para cada id
-coordGaps = {} #dictionary os intervalos de distancias entre os pontos para cada id
-separator = {} #dict em que cada chave contera uma lista com os indices onde as separações devem ser feitas
-allTimeGaps = [] #lista com todos intervalos de tempo entre os pontos
-allCoordGaps = [] #lista com todos intervalos de distancia entre os pontos
-coordGapsDiscrete = []
-timeGapsDiscrete = []
-travels = [] #lista de viagens
-keys = [] #lista dos ids
-limitDist = 25
-limitTempo = timedelta(seconds=10)
-
 def cdfTempo():
     """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
+
     x = [i for i in timeGapsDiscrete if i <=100]
 
-    #Definição dos valores da lista
+    #  Definição dos valores da lista
     sigma = np.std(x)
     mu = sum(x)/len(x)
     n_bins = 100
 
     _,ax = plt.subplots(figsize=(8, 4))
 
-    # Histograma cumulativo
-    _,bins,_ = ax.hist(x, n_bins, density=True, histtype='step', cumulative=True, label='Empírica')
+    #  Histograma cumulativo
+    _,bins,_ = ax.hist(x, n_bins, density=True, histtype='step',
+                       cumulative=True, label='Empírica')
 
-    # Distribuição esperada
-    y = ((1 / (np.sqrt(2 * np.pi) * sigma)) * np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
+    #  Distribuição esperada
+    y = ((1 / (np.sqrt(2 * np.pi) * sigma)) 
+        * np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
+
     y = y.cumsum()
     y /= y[-1]
 
     ax.plot(bins, y, 'r--', linewidth=1.5, label='Teórica')
 
-    # Histograma cumulativo inverso
+    #  Histograma cumulativo inverso
     #ax.hist(x, bins=bins, density=True, histtype='step', cumulative=-1,label='Emp. Inversa')
 
-    # Detalhes do gráfico
+    #  Detalhes do gráfico
     ax.grid(True)
     ax.legend(loc='right')
     ax.set_title('Função de Densidade Cumulativa - Tempo entre pontos')
@@ -72,27 +83,31 @@ def cdfDistancia():
 
     x = [i for i in coordGapsDiscrete if i <=100]
 
-    #Definição dos valores da lista
+    #  Definição dos valores da lista
     sigma = np.std(x)
     mu = sum(x)/len(x)
     n_bins = 100
 
     _,ax = plt.subplots(figsize=(8, 4))
 
-    # Histograma cumulativo
-    _,bins,_ = ax.hist(x, n_bins, density=True, histtype='step', cumulative=True, label='Empírica')
+    #  Histograma cumulativo
+    _,bins,_ = ax.hist(x, n_bins, 
+                       density=True, histtype='step',
+                       cumulative=True, label='Empírica')
 
-    # Distribuição esperada
-    y = ((1 / (np.sqrt(2 * np.pi) * sigma)) * np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
+    #  Distribuição esperada
+    y = ((1 / (np.sqrt(2 * np.pi) * sigma)) 
+        * np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
+
     y = y.cumsum()
     y /= y[-1]
 
     ax.plot(bins, y, 'r--', linewidth=1.5, label='Teórica')
 
-    # Histograma cumulativo inverso
+    #  Histograma cumulativo inverso
     #ax.hist(x, bins=bins, density=True, histtype='step', cumulative=-1,label='Emp. Inversa')
 
-    # Detalhes do gráfico
+    #  Detalhes do gráfico
     ax.grid(True)
     ax.legend(loc='right')
     ax.set_title('Função de Densidade Cumulativa - Distância entre pontos')
@@ -111,35 +126,35 @@ def boxplotDistancia():
     plt.yscale('log')
     plt.ylabel('Distância em metros')
 
-    # Grab the relevant Line2D instances from the boxplot dictionary
+    #  Grab the relevant Line2D instances from the boxplot dictionary
     iqr = my_boxes['boxes'][0]
     caps = my_boxes['caps']
     med = my_boxes['medians'][0]
     fly = my_boxes['fliers'][0]
 
-    # The x position of the median line
+    #  The x position of the median line
     xpos = med.get_xdata()
 
-    # Lets make the text have a horizontal offset which is some 
-    # fraction of the width of the box
+    #  Lets make the text have a horizontal offset which is some 
+    #  fraction of the width of the box
     xoff = 0.10 * (xpos[1] - xpos[0])
 
-    # The x position of the labels
+    #  The x position of the labels
     xlabel = xpos[1] + xoff
 
-    # The median is the y-position of the median line
+    #  The median is the y-position of the median line
     median = med.get_ydata()[1]
 
-    # The 25th and 75th percentiles are found from the
-    # top and bottom (max and min) of the box
+    #  The 25th and 75th percentiles are found from the
+    #  top and bottom (max and min) of the box
     pc25 = iqr.get_ydata().min()
     pc75 = iqr.get_ydata().max()
 
-    # The caps give the vertical position of the ends of the whiskers
+    #  The caps give the vertical position of the ends of the whiskers
     capbottom = caps[0].get_ydata()[0]
     captop = caps[1].get_ydata()[0]
 
-    # Make some labels on the figure using the values derived above
+    #  Make some labels on the figure using the values derived above
     ax1.text(xlabel, median,'Mediana = {:6.3g}'.format(median), va='center')
     ax1.text(xlabel, pc25,'1˚ quartil = {:6.3g}'.format(pc25), va='center')
     ax1.text(xlabel, pc75,'3˚ quartil = {:6.3g}'.format(pc75), va='center')
@@ -157,35 +172,35 @@ def boxplotTempo():
     plt.yscale('log')
     plt.ylabel('Tempo em segundos')
 
-     # Grab the relevant Line2D instances from the boxplot dictionary
+     #  Grab the relevant Line2D instances from the boxplot dictionary
     iqr = my_boxes['boxes'][0]
     caps = my_boxes['caps']
     med = my_boxes['medians'][0]
     fly = my_boxes['fliers'][0]
 
-    # The x position of the median line
+    #  The x position of the median line
     xpos = med.get_xdata()
 
-    # Lets make the text have a horizontal offset which is some 
-    # fraction of the width of the box
+    #  Lets make the text have a horizontal offset which is some 
+    #  fraction of the width of the box
     xoff = 0.10 * (xpos[1] - xpos[0])
 
-    # The x position of the labels
+    #  The x position of the labels
     xlabel = xpos[1] + xoff
 
-    # The median is the y-position of the median line
+    #  The median is the y-position of the median line
     median = med.get_ydata()[1]
 
-    # The 25th and 75th percentiles are found from the
-    # top and bottom (max and min) of the box
+    #  The 25th and 75th percentiles are found from the
+    #  top and bottom (max and min) of the box
     pc25 = iqr.get_ydata().min()
     pc75 = iqr.get_ydata().max()
 
-    # The caps give the vertical position of the ends of the whiskers
+    #  The caps give the vertical position of the ends of the whiskers
     capbottom = caps[0].get_ydata()[0]
     captop = caps[1].get_ydata()[0]
 
-    # Make some labels on the figure using the values derived above
+    #  Make some labels on the figure using the values derived above
     ax1.text(xlabel, median,'Mediana = {:6.3g}'.format(median), va='center')
     ax1.text(xlabel, pc25,'1˚ quartil = {:6.3g}'.format(pc25), va='center')
     ax1.text(xlabel, pc75,'3˚ quartil = {:6.3g}'.format(pc75), va='center')
@@ -195,7 +210,13 @@ def boxplotTempo():
     plt.show()
 
 def tempoDoisPontos(i,j,pontos):
-    """Função para calcular o tempo entre dois pontos"""
+    """Função para calcular o tempo entre dois pontos
+
+    Argumentos:
+    i -- Posição do primeiro ponto
+    j -- Posição do segundo ponto
+    pontos -- lista de pontos
+    """
 
     ponto1 = pontos[i]
     ponto2 = pontos[j]
@@ -225,16 +246,26 @@ def distDoisPontos(i,j,pontos):
     return dist
 
 def convertHaversine(x1,y1,x2,y2):
-    """Função para converter coordenadas geográficas para distância em metros utilizando o algoritmo de Haversine"""
+    """Função para converter coordenadas geográficas para distância 
+        em metros utilizando o algoritmo de Haversine
+
+        x1 -- Latitude do ponto 1
+        y1 -- Longitude do ponto 1
+        x2 -- Latitude do ponto 2
+        y2 -- Longitude do ponto 2
+    """
 
     R = 6378.137
     dLat = x2 * math.pi / 180 - x1 * math.pi / 180
     dLon = y2 * math.pi / 180 - y1 * math.pi / 180
-    a = math.sin(dLat/2) * math.sin(dLat/2) + math.cos(x1 * math.pi / 180) * math.cos(x2 * math.pi / 180) * math.sin(dLon/2) * math.sin(dLon/2)
+
+    a = (math.sin(dLat/2) * math.sin(dLat/2) + math.cos(x1 * math.pi / 180) 
+        * math.cos(x2 * math.pi / 180) * math.sin(dLon/2) * math.sin(dLon/2))
+
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
     d = R * c
 
-    return d* 1000 #retorna o valor em metros
+    return d* 1000  #  retorna o valor em metros
 
 def histTempo():
     """Função para plotar um histograma dos tempos entre pontos consecutivos"""
@@ -259,6 +290,8 @@ def histDistancia():
     plt.show()
 
 def printaCorridas():
+    """Função para plotar as corridas de um ID selecionado em um mapa."""
+
     print("\n" + str(keys))
     veic = int(input("Selecione um ID da lista acima ou 0 para sair: "))
     strveic = str(veic)
@@ -268,10 +301,11 @@ def printaCorridas():
             df = pd.read_csv(path+"/data/roma_calibrated_sorted.csv")
             df = df.loc[df['id'] == veic]
             
-            #Pegar Max e Min das coordenadas geograficas
+            #  Pegar Max e Min das coordenadas geograficas
             BBox = BBox = (df.long_x.min(),df.long_x.max(),df.lat_y.min(),df.lat_y.max())
 
-            #Se a imagem de fundo existir, iterar entre os pontos da lista de paradas e printar todas coordenadas entre i e i+1
+            #  Se a imagem de fundo existir, iterar entre os pontos da lista
+            #  de paradas e printar todas coordenadas entre i e i+1
             if os.path.exists(path+'/img/backmaps/trackmap_id_'+ str(veic) +'.png'):
                 ruh_m = plt.imread(path+'/img/backmaps/trackmap_id_'+ str(veic) +'.png')
                 fig, ax = plt.subplots()
@@ -285,7 +319,8 @@ def printaCorridas():
                     longitudes = caminho['long_x'].to_numpy()
                     latitudes = caminho['lat_y'].to_numpy()
 
-                    ax.scatter(longitudes, latitudes, zorder=0.3, alpha=0.3, c=listaCores[cor], s=2)
+                    ax.scatter(longitudes, latitudes, zorder=0.3, 
+                                alpha=0.3, c=listaCores[cor], s=2)
                     cor +=1 
                     if cor > 2:
                         cor = 0
@@ -298,11 +333,13 @@ def printaCorridas():
                 plt.savefig(path+"/img/trackmap_id_"+str(veic)+".png", dpi=200)
                 plt.close()           
         
-            #Se a imagem nao existir printar os Max e Min das coordenadas e pedir ao usuario para criar a imagem
+            #  Se a imagem nao existir printar os Max e Min das coordenadas 
+            #  e pedir ao usuario para criar a imagem
             else:
                 print('Por favor crie o backmap com as seguintes coordenadas: ')
                 print(BBox)
-                print('Depois salve o arquivo no path: ' + path + '/img/backmaps/trackmap_id_'+ str(veic) +'.png')
+                print('Depois salve o arquivo no path: ' + path 
+                + '/img/backmaps/trackmap_id_'+ str(veic) +'.png')
         else:
             print("O ID nao existe")
 
@@ -343,16 +380,19 @@ def atualizarDados():
     with open(path+'/data/roma_calibrated_sorted.csv') as file:
         reader = csv.DictReader(file)
     
-        line = reader.__next__() #le a primeira linha
+        line = reader.__next__()
         tag = line["id"]
         keys.append(line["id"])
-        pontos[tag] = [] #cria uma lista onde serao adicionados os pontos de cada id
+
+        #  cria uma lista onde serao adicionados os pontos de cada id
+        pontos[tag] = [] 
         print('Lendo banco de dados...')
 
-        #Ciclo que percorre todas as linhas, le os pontos e os salva nos respectivos ids no Dictionary
+        #  Ciclo que percorre todas as linhas, le os pontos e 
+        #  os salva nos respectivos ids no Dictionary
         for line in reader:
             tags.append(line['id'])
-            if tag != line['id']: #Quando a tag for modificada, cria uma nova key
+            if tag != line['id']: #  Quando a tag for modificada, cria uma nova key
                 tag = line['id']
                 pontos[tag] = []
                 keys.append(line['id'])
@@ -360,7 +400,7 @@ def atualizarDados():
             coord = (float(line['lat_y']),float(line['long_x']))
             hour = line['time']
 
-            #Cria uma nova instancia de Ponto
+            #  Cria uma nova instancia de Ponto
             pnt = {}
             pnt['Hora'] = hour
             pnt['Coord'] = coord
@@ -370,12 +410,12 @@ def atualizarDados():
         print('Pronto!')
 
         print('Calculando distâncias e tempos...')
-        #for que percorre cada key no dict
+        #  for que percorre cada key no dict
         for key,value in pontos.items():
             timeGaps[key] = []
             coordGaps[key] = []
 
-            #for que percorre cada valor presente na key
+            #  for que percorre cada valor presente na key
             for i in range(len(value)-1):
                 point1 = value[i]
                 point2 = value[i+1]
@@ -383,8 +423,9 @@ def atualizarDados():
                 pointCoord1 = point1.pointData['Coord']
                 pointCoord2 = point2.pointData['Coord']
 
+                #  converte string para datahora
                 pointTime = point1.pointData['Hora']
-                pointTime = datetime.strptime(pointTime,'%Y-%d-%m %H:%M:%S') #converte string para datahora
+                pointTime = datetime.strptime(pointTime,'%Y-%d-%m %H:%M:%S') 
                 pointTime2 = point2.pointData['Hora']
                 pointTime2 = datetime.strptime(pointTime2,'%Y-%d-%m %H:%M:%S')
 
@@ -392,8 +433,10 @@ def atualizarDados():
                 timeGaps[key].append(timeGap.total_seconds())
                 allTimeGaps.append(timeGap.total_seconds())
 
-                coordGaps[key].append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
-                allCoordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],pointCoord2[0],pointCoord2[1]))
+                coordGaps[key].append(convertHaversine(pointCoord1[0],pointCoord1[1],
+                                                       pointCoord2[0],pointCoord2[1]))
+                allCoordGaps.append(convertHaversine(pointCoord1[0],pointCoord1[1],
+                                                     pointCoord2[0],pointCoord2[1]))
 
     print('Salvando dados...')
     with open(path+'/data/ids.txt', 'w') as file:
@@ -441,8 +484,10 @@ def lerDados():
     print('Lendo dados...')
     with open(path+'/data/timeGaps.txt', 'r') as file:
         allTimeGaps = list(map(float, file.readlines())).copy()
+
     with open(path+'/data/coordGaps.txt', 'r') as file:
         allCoordGaps = list(map(float, file.readlines())).copy()
+
     with open(path+'/data/keys.txt', 'r') as file:
         keys = list(map(str, file.readlines())).copy()
         keys = list(map(str.strip,keys)).copy()
@@ -451,23 +496,23 @@ def lerDados():
     coordGapsDiscrete = list(map(int, allCoordGaps)).copy()
     print('Pronto!')
 
-    #le arquivo com a lista de sequencia de ids
+    #  le arquivo com a lista de sequencia de ids
     with open(path+'/data/ids.txt', 'r') as file:
         ids = list(map(str,file.readlines())).copy()
         ids = list(map(str.strip,ids)).copy()
 
-    #le arquivo com a lista de sequencia de coordenadas
+    #  le arquivo com a lista de sequencia de coordenadas
     with open(path+'/data/coordenadas.txt', 'r') as file:
         crds = list(map(str,file.readlines())).copy()
         crds = list(map(str.strip,crds)).copy()
         crds = list(map(eval,crds)).copy()
     
-    #le arquivo com a lista de sequencia de horas
+    #  le arquivo com a lista de sequencia de horas
     with open(path+'/data/hora.txt', 'r') as file:
         hrs = list(map(str,file.readlines())).copy()
         hrs = list(map(str.strip,hrs)).copy()
 
-    #inicializa o dict de pontos com uma lista para cada id
+    #  inicializa o dict de pontos com uma lista para cada id
     for id in ids:
         pontos[id] = []
     
@@ -482,7 +527,7 @@ def lerDados():
     
     return allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys, pontos
 
-#Driver
+#  Driver
 allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys, pontos = lerDados()
 
 print("\nMenu:\n \
