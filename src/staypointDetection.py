@@ -43,6 +43,9 @@ else:
     path = '/Users/tuliopolido/Repos/Pesquisa'
 
 
+def matrixOD():
+    """Função que cria a matriz de origem de destino definindo um grid no mapa"""
+
 def getOD():
     """Função para calcular os pontos iniciais e finais de cada viagem"""
 
