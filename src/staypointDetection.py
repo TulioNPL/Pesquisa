@@ -46,7 +46,19 @@ else:
 def getOD():
     """Função para calcular os pontos iniciais e finais de cada viagem"""
 
-    print(separator)
+    for key in keys:
+        lastPos = len(pontos[key]) - 1
+
+        pt = pontos[key][0]
+        orig.append(pt)
+
+        for i in range(len(separator[key])-1):
+            intervalo = separator[key][i]
+            dest.append(pontos[key][intervalo])
+            orig.append(pontos[key][intervalo+1])
+
+        pt = pontos[key][lastPos]
+        dest.append(pt)
 
 def cdfTempo():
     """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
