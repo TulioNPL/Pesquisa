@@ -28,6 +28,9 @@ timeGapsDiscrete = []
 #  lista com todos intervalos de distancia entre os pontos
 allCoordGaps = [] 
 coordGapsDiscrete = []
+#  listas dos pontos iniciais e finais de cada viagem
+orig = []
+dest = []
 
 travels = []
 keys = []
@@ -39,6 +42,11 @@ if platform.system() == 'Linux':
 else:
     path = '/Users/tuliopolido/Repos/Pesquisa'
 
+
+def getOD():
+    """Função para calcular os pontos iniciais e finais de cada viagem"""
+
+    print(separator)
 
 def cdfTempo():
     """Função que plota uma cdf com os dados de distancia entre pontos de todos veículos"""
@@ -66,7 +74,8 @@ def cdfTempo():
     ax.plot(bins, y, 'r--', linewidth=1.5, label='Teórica')
 
     #  Histograma cumulativo inverso
-    #ax.hist(x, bins=bins, density=True, histtype='step', cumulative=-1,label='Emp. Inversa')
+    #ax.hist(x, bins=bins, density=True, histtype='step', 
+    #       cumulative=-1,label='Emp. Inversa')
 
     #  Detalhes do gráfico
     ax.grid(True)
@@ -105,7 +114,8 @@ def cdfDistancia():
     ax.plot(bins, y, 'r--', linewidth=1.5, label='Teórica')
 
     #  Histograma cumulativo inverso
-    #ax.hist(x, bins=bins, density=True, histtype='step', cumulative=-1,label='Emp. Inversa')
+    #ax.hist(x, bins=bins, density=True, histtype='step', 
+    #       cumulative=-1,label='Emp. Inversa')
 
     #  Detalhes do gráfico
     ax.grid(True)
@@ -357,7 +367,7 @@ def stayPoint_Detection():
         i = 0
         while i < numPontos-1:   
             dist =  distDoisPontos(i,i+1,pontos[key])
-            #print(i)
+
             if dist > limitDist: 
                 tempo = tempoDoisPontos(i,i+1,pontos[key])  
                 
@@ -365,9 +375,8 @@ def stayPoint_Detection():
                     separator[key].append(i)
             i+=1
 
-        separator[key].append(numPontos-1) #Adiciona ponto final
+        separator[key].append(numPontos-1) #  Adiciona ponto final
     print('Pronto!')
-    printaCorridas()
 
 def atualizarDados():
     """Função para ler a base de dados original e calcular as variações de tempo e distâncias"""
@@ -529,17 +538,20 @@ def lerDados():
 
 #  Driver
 allTimeGaps, allCoordGaps, timeGapsDiscrete, coordGapsDiscrete, keys, pontos = lerDados()
-
+stayPoint_Detection()
+getOD()
+'''
 print("\nMenu:\n \
     (0)Sair\n \
     (1)Gerar Histograma de Tempo\n \
     (2)Gerar Histograma de Distância\n \
-    (3)Gerar lista de paradas\n \
+    (3)Plotar as viagens de um ID\n \
     (4)Gerar boxplot de tempo\n \
     (5)Gerar boxplot de distância\n \
     (6)Gerar CDF de distância\n \
     (7)Gerar CDF de tempo\n \
-    (8)Atualizar dados")
+    (8)Gerar matrix OD \
+    (9)Atualizar dados")
 resp = int(input("Digite sua opção: "))
 print()
 
@@ -549,7 +561,7 @@ while(resp != 0):
     elif resp == 2:
         histDistancia()
     elif resp == 3:
-        stayPoint_Detection()
+        printaCorridas()
     elif resp == 4:
         boxplotTempo()
     elif resp == 5:
@@ -559,17 +571,20 @@ while(resp != 0):
     elif resp == 7:
         cdfTempo()
     elif resp == 8:
+        getOD()
+    elif resp == 9:
         atualizarDados()
 
     print("\nMenu:\n \
     (0)Sair\n \
     (1)Gerar Histograma de Tempo\n \
     (2)Gerar Histograma de Distância\n \
-    (3)Gerar lista de paradas\n \
+    (3)Plotar as viagens de um ID\n \
     (4)Gerar boxplot de tempo\n \
     (5)Gerar boxplot de distância\n \
     (6)Gerar CDF de distância\n \
     (7)Gerar CDF de tempo\n \
-    (8)Atualizar dados")
+    (8)Gerar matrix OD \
+    (9)Atualizar dados")
     resp = int(input("Digite sua opção: "))
-    print()
+    print()'''
