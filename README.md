@@ -118,6 +118,7 @@ Entrada: (P -> Dados de GPS | limitDist -> limite de distância | limitTemp -> l
                     
                     IF tempo > limitTemp:
                          SP.append(i) //Adiciona i na lista de paradas
+           i += 1
      return SP
      
 Saida: (SP -> lista com os pontos de parada)             
