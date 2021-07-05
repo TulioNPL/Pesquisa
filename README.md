@@ -1,9 +1,23 @@
-### • Próximos passos
-Documentação da pesquisa até o momento:
+### • Atualizações recentes:
+# Mapas de calor
+![Alt text](/img/mapaCalorOrigem.png?raw=true "Mapa de calor - Origem")
+![Alt text](/img/mapaCalorDestino.png?raw=true "Mapa de calor - Destino")
 
--> Finalizar a persistência de dados
 
--> Matriz de origem e destino
+# Gráficos de trajetórias por veículo
+![Alt text](/img/histTrajPorVeic.png?raw=true "Mapa de calor - Roma - 12h-13h")
+![Alt text](/img/cdfTrajPorVeic.png?raw=true "Mapa de calor - Roma - 12h-13h")
+
+
+# Gráficos de tempo por trajetória
+![Alt text](/img/histTempPorTraj.png?raw=true "Mapa de calor - Roma - 12h-13h")
+![Alt text](/img/cdfTempPorTraj.png?raw=true "Mapa de calor - Roma - 12h-13h")
+
+
+# Gráficos de trajetórias por hora
+![Alt text](/img/trajPorHora.png?raw=true "Mapa de calor - Roma - 12h-13h")
+![Alt text](/img/dens_trajPorHora.png?raw=true "Mapa de calor - Roma - 12h-13h")
+
 ____________________________________________________________
 # Pesquisa
 Trabalho de pesquisa da área de Redes Veiculares.
