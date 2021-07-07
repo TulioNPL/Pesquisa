@@ -5,7 +5,7 @@
 
 ### [Gráficos de tempo por trajetória](tempoPorTraj.md)
 
-### [Gráficos de trajetórias por hora](trajPorHOra.md)
+### [Gráficos de trajetórias por hora](trajPorHora.md)
 
 ### [Gráficos de velocidade média por trajetória](velPorTraj.md)
 
