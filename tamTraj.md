@@ -5,3 +5,8 @@
 ______________________________
 ### Limites: Tempo=18s    Distância = 50m
 ![Alt text](/img/histTamTrajs_b.png?raw=true "Histograma de tamanho de trajetórias")
+
+______________________________
+### Boxplots
+![Alt text](/img/boxplotTamTrajs.png?raw=true "Boxplots dos tamanhos de trajetórias")
+
