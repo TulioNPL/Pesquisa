@@ -11,6 +11,8 @@
 
 ### [Gráficos de tamanho das trajetórias](tamTraj.md)
 
+### [CDFs de tempo e distância](cdfs.md)
+
 ___________________________________________________________
 # Pesquisa
 Trabalho de pesquisa da área de Redes Veiculares.
