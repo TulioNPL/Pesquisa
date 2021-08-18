@@ -1,4 +1,6 @@
 ## • Dados:
+### [Acurácia](acc.md)
+
 ### [Mapas de calor](mapCalor.md)
 
 ### [Gráficos de trajetórias por veículo](trajPorVeic.md)
