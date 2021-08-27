@@ -2,5 +2,5 @@
 ______________________________
 ![Alt text](/img/histTempoTrips_Dublin.png?raw=true "Histograma de tamanho de trajetórias")
 ______________________________
-![Alt text](/img/histTamTrajs.png?raw=true "Histograma de tamanho de trajetórias")
+![Alt text](/img/histVelTrips_Dublin.png?raw=true "Histograma de tamanho de trajetórias")
 ______________________________
