@@ -1,6 +1,6 @@
-### [Gráficos](MDFiles/grafDublin.md)
-### [Heatmaps](MDFiles/heatDublin.md)
-### [Histogramas 2D](MDFiles/histDublin.md)
+### [Gráficos](grafDublin.md)
+### [Heatmaps](heatDublin.md)
+### [Histogramas 2D](histDublin.md)
 ______________________________
 
 
