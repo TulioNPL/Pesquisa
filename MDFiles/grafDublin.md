@@ -13,7 +13,4 @@ _______________________________
 ![Alt text](/img/Dublin/histTamTrajs_Dublin.png)
 ![Alt text](/img/Dublin/histTempos_Dublin.png)
 ![Alt text](/img/Dublin/histTempoTrips_Dublin.png)
-![Alt text](/img/Dublin/histTempPorTraj_Dublin.png)
-![Alt text](/img/Dublin/histTrajPorVeic_Dublin.png)
-![Alt text](/img/Dublin/histVelPorTraj_Dublin.png)
 ![Alt text](/img/Dublin/histVelTrips_Dublin.png)
