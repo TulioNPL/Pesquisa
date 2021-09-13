@@ -10,7 +10,6 @@ _______________________________
 # Histogramas
 ![Alt text](/img/Dublin/qtdViagens_Dublin.png)
 ![Alt text](/img/Dublin/histQtdTrips_Dublin.png)
-![Alt text](/img/Dublin/histTamTrajs_Dublin.png)
 ![Alt text](/img/Dublin/histTempos_Dublin.png)
 ![Alt text](/img/Dublin/histTempoTrips_Dublin.png)
 ![Alt text](/img/Dublin/histVelTrips_Dublin.png)
