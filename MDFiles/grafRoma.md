@@ -10,6 +10,6 @@ _______________________________
 # Histogramas
 ![Alt text](/img/Roma/qtdViagens_Roma.png)
 ![Alt text](/img/Roma/histTamTrajs_Roma.png)
-![Alt text](/img/Roma/histTempos_Roma.png)
 ![Alt text](/img/Roma/histTempoTrips_Roma.png)
 ![Alt text](/img/Roma/histVelTrips_Roma.png)
+![Alt text](/img/Roma/histTempos_Roma.png)
