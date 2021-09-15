@@ -3,6 +3,8 @@
 ### [Base de Dublin](MDFiles/baseDublin.md)
 
 ### [Base de Roma](MDFiles/baseRoma.md)
+
+### [Comparações](jupyter/analise.ipynb)
 ___________________________________________________________
 # Pesquisa
 Trabalho de pesquisa da área de Redes Veiculares.
