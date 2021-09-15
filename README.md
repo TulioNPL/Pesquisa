@@ -4,7 +4,7 @@
 
 ### [Base de Roma](MDFiles/baseRoma.md)
 
-### [Comparações](jupyter/analise.ipynb)
+### [Comparações](jupyter/analise.pdf)
 ___________________________________________________________
 # Pesquisa
 Trabalho de pesquisa da área de Redes Veiculares.
