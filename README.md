@@ -27,7 +27,7 @@ O trace está contido em um arquivo ".csv", onde cada linha representa um ponto 
 # Etapas
 ### • 1 - Análise inicial √
 ### • 2 - Algoritmo de detecção de paradas √
-### • 3 - Estudo da base de dados
+### • 3 - Estudo da base de dados √
 ### • 4 - Enriquecimento da base original e comparação dos resultados
 
 # Seção I - Introdução 
@@ -43,14 +43,14 @@ Na análise inicial, foi feito um estudo básico para identificar qualquer tipo 
 É de conhecimento geral que durante um dia o fluxo de veículos é heterogêneo. O gráfico abaixo demonstra claramente uma concentração bem maior de veículos durante alguns horários específicos do dia. Entre os horários com maior densidade de veículos, destacam-se três picos: O de 07:00 às 08:00, o de 11:00 às 12:00 e o de 19:00 às 20:00.
 
 ### • Gráfico de Densidade de veículos x Hora do dia
-![Alt text](/img/dens_carros.png?raw=true "Densidade veicular x Hora do dia")
+![Alt text](/img/Roma/dens_carros.png?raw=true "Densidade veicular x Hora do dia")
 
 Esses picos coincidem com os horários de uma jornada de trabalho padrão, onde o primeiro pico se daria no momento em que as pessoas da cidade se deslocam ao trabalho ou escola, o segundo ocorreria no momento de intervalo, onde há também uma tendência maior de jovens saindo e chegando nas escolas, e o terceiro seria o movimento de retorno.
 
 Isso é reforçado pelos mapas de calor da cidade, onde pode ser visualizado a diferença de movimento de veículos na cidade.
 
 ### • Mapa de calor das 12h às 13h na cidade de Roma
-![Alt text](/img/map_12hTo13h.png?raw=true "Mapa de calor - Roma - 12h-13h")
+![Alt text](/img/Roma/map_12hTo13h.png?raw=true "Mapa de calor - Roma - 12h-13h")
 
 *Para plotar outros mapas basta digitar no terminal na pasta do trabalho:
 
@@ -97,7 +97,7 @@ Saida: (SP -> lista com os pontos de parada)
 
 Esse algoritmo não tem uma boa detecção de viagens em veículos, como pode ser observado no mapa exibido abaixo. Nele as rotas do veículo de ID 329 foram traçadas no mapa de Roma, e a cada mudança de trajeto detectada pelo algoritmo a cor da rota é alterada. Foram utilizadas 4 cores diferentes para facilitar a visualização da segmentação de trajetos.
 
-![Alt text](/img/trackmap_id_329_old.png?raw=true "Mapa do ID 329 v1")
+![Alt text](/img/Roma/trackmap_id_329_old.png?raw=true "Mapa do ID 329 v1")
 
 O principal problema detectado é a grande fragmentação gerada ao se utilizar duas variáveis auxiliares i e j, que definem quais sequências de pontos consecutivos devem ser definidos como momentos de paradas. Essa técnica é funcional para detectar pontos de parada de um pedestre que possivelmente entrou em um edifício e se deslocou dentro dele por um tempo, porém ao se analisar veículos em rodovias, o mesmo é ineficiente. Deste modo, um novo algoritmo precisou ser desenvolvido, em que apenas uma variável auxiliar fosse utilizadas e a análise fosse feita não em um conjunto de pontos, mas de forma singular.
 
@@ -128,14 +128,14 @@ Saida: (SP -> lista com os pontos de parada)
 Os limites definidos para o algoritmo foram escolhidos tendo como base principal valores cujos dados acumulados somassem mais de 90% do total. A ideia é estabelecer um limite máximo de tempo em que o carro pode ficar parado sem que seja considerada uma nova viagem, bem como uma distância mínima que o carro deve percorrer entre dois pontos. Os valores de referência podem ser observados nos gráficos abaixo.
 
 ### CDF - Distância entre pontos
-![Alt text](/img/cdfDistancia.png?raw=true "CDF Distâncias")
+![Alt text](/img/Roma/cdfDistancia_Roma.png?raw=true "CDF Distâncias")
 
 ### CDF - Tempo entre pontos
-![Alt text](/img/cdfTempo.png?raw=true "CDF Tempo")
+![Alt text](/img/Roma/cdfTempo_Roma.png?raw=true "CDF Tempo")
 
 Para dar ao algoritmo uma margem de segurança, evitando que viagens fossem separadas, os valores selecionados estão acima do limite de 90% exibido nas funções de densidade cumulativas anteriores. Abaixo pode ser observado o resultado da nova versão, onde há uma fragmentação muito menor e maior continuidade das trajetórias.
 
-![Alt text](/img/trackmap_id_329.png?raw=true "Mapa do ID 329 v2")
+![Alt text](/img/Roma/trackmap_id_329.png?raw=true "Mapa do ID 329 v2")
 
 # Criação da matriz O/D
 
